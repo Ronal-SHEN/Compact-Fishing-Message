@@ -3,7 +3,6 @@ package starship.cfm.fishMessage;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.scoreboard.ScoreboardDisplaySlot;
 import net.minecraft.scoreboard.ScoreboardObjective;
@@ -11,6 +10,8 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import org.joml.Matrix3x2f;
+import org.joml.Matrix3x2fStack;
 import starship.cfm.modMenu.ConfigData;
 
 import java.util.ArrayList;
@@ -60,8 +61,8 @@ public class RecordOverlay {
         int textColor = 0xFF000000 | (ConfigData.getInstance().fishRecordTextRGBColor & 0xFFFFFF);
 
         TextRenderer textRenderer = client.textRenderer;
-        MatrixStack matrices = drawContext.getMatrices();
-        matrices.push();
+        Matrix3x2fStack matrices = drawContext.getMatrices();
+        Matrix3x2f backupMatrix = new Matrix3x2f(matrices);
 
         List<Map.Entry<String, String>> renderEntries = getRenderEntries();
 
@@ -70,11 +71,9 @@ public class RecordOverlay {
         float lineHeight = 11.5f;
         int totalHeight = (int) ((lineHeight + 1) * renderEntries.size());
 
-        matrices.pop();
         drawContext.fill(x, y, x + (int) (maxWidth * scale), y + (int) (totalHeight * scale), backgroundColor);
-        matrices.push();
-        matrices.translate(x, y, 0);
-        matrices.scale(scale, scale, 1.0f);
+        matrices.translate(x, y);
+        matrices.scale(scale, scale);
 
         int i = 0;
         for (Map.Entry<String, String> entry : renderEntries) {
@@ -92,8 +91,8 @@ public class RecordOverlay {
                 drawContext.drawText(textRenderer, line, 4, lineY, textColor, false);
 
         }
+        matrices.set(backupMatrix);
 
-        matrices.pop();
     }
 
     private List<Map.Entry<String, String>> getRenderEntries() {

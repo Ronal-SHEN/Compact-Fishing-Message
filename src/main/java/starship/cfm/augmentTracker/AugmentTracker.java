@@ -1,11 +1,11 @@
 package starship.cfm.augmentTracker;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,6 +13,8 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import org.joml.Matrix3x2f;
+import org.joml.Matrix3x2fStack;
 import starship.cfm.CompactFishingMessage;
 import starship.cfm.fishMessage.FishMessage;
 import starship.cfm.modMenu.ConfigData;
@@ -91,74 +93,81 @@ public class AugmentTracker {
         if (ifBaitNeedsShow) drawContext.drawItem(bait, startLeftX, yPos);
         if (ifLineNeedsShow) {
             TextRenderer textRenderer = client.textRenderer;
-            drawContext.getMatrices().push();
-            drawContext.getMatrices().scale(0.5f, 0.5f, 1f);
+            Matrix3x2fStack matrices = drawContext.getMatrices();
+            Matrix3x2f backupMatrix = new Matrix3x2f(matrices);
 
-            int scaledX = (startLeftX + blankWidth + 5) * 2 + 3;
-            int scaledY = (yPos - 2) * 2 + 38;
+            int scaledX = (int)((startLeftX + blankWidth + 5) * 2 + 3)/2;
+            int scaledY = (int)((yPos - 2) * 2 + 38)/2;
+            matrices.translate(scaledX, scaledY);
+            matrices.scale(0.5f, 0.5f);
+
             if (lineUsageRemain > 0) {
                 int xOffset = (lineUsageRemain < 10) ? 1 : 0;
-                drawContext.drawText(textRenderer, Text.literal(String.valueOf(lineUsageRemain)), scaledX + xOffset, scaledY, 0xFFFFFF, true);
-                drawContext.getMatrices().pop();
+                drawContext.drawText(textRenderer, Text.literal(String.valueOf(lineUsageRemain)), 0+ xOffset, 0, 0xFFFFFFFF, true);
+                matrices.set(backupMatrix);
                 drawContext.drawItem(line, startLeftX + blankWidth, yPos);
             } else if (lineUsageRemain == 0) {
-                drawContext.getMatrices().pop();
+                matrices.set(backupMatrix);
                 Identifier plusID = Identifier.of("cfm", "textures/item/add.png");
-                Function<Identifier, RenderLayer> renderLayerFunc = id -> RenderLayer.getGuiTextured(plusID);
-                drawContext.drawTexture(renderLayerFunc, plusID, startLeftX + blankWidth, yPos, 0f, 0f, 16, 16, 16, 16);
+                drawContext.drawTexture(RenderPipelines.GUI_TEXTURED, plusID, startLeftX + blankWidth, yPos, 0f, 0f, 16, 16, 16, 16);
 
-            } else { // == -1
-                drawContext.getMatrices().pop();
+            }
+            else { // == -1
+                matrices.set(backupMatrix);
                 drawContext.drawItem(line, startLeftX + blankWidth, yPos);
             }
         }
-        if (ifUnstableOCNeedsShow) {
+        if (ifUnstableOCNeedsShow) { //
             TextRenderer textRenderer = client.textRenderer;
-            drawContext.getMatrices().push();
-            drawContext.getMatrices().scale(0.5f, 0.5f, 1f);
+            Matrix3x2fStack matrices = drawContext.getMatrices();
+            Matrix3x2f backupMatrix = new Matrix3x2f(matrices);
 
-            int scaledX = (startRightX + blankWidth * 3 + 5) * 2 - 5;
-            int scaledY = (yPos - 2) * 2 + 40;
+            int scaledX = (int)((startRightX + blankWidth * 3 + 5) * 2 - 5)/2;
+            int scaledY = (int)((yPos - 2) * 2 + 40)/2;
+            matrices.translate(scaledX, scaledY);
+            matrices.scale(0.5f, 0.5f);
 
             if (unstableOCDuration > 0) { // activate
                 int minutes = unstableOCDuration / 60;
                 int seconds = unstableOCDuration % 60;
                 String timeStr = String.format("%d:%02d", minutes, seconds);
-                drawContext.drawText(textRenderer, Text.literal(timeStr), scaledX + (unstableOCDuration < 600 ? 1 : 0), scaledY, 0x7FBEEB, true);
-                drawContext.getMatrices().pop();
+                drawContext.drawText(textRenderer, Text.literal(timeStr), (unstableOCDuration < 600 ? 1 : 0), 0, 0xFF7FBEEB, true);
+                matrices.set(backupMatrix);
 
                 drawContext.drawItem(unstableOverclock, startRightX + blankWidth * 3, yPos);
-            } else if (unstableOCDuration == 0 && unstableOCCooldown > 0) { // cooldown
+            }
+            else if (unstableOCDuration == 0 && unstableOCCooldown > 0) { // cooldown
                 int minutes = unstableOCCooldown / 60;
                 int seconds = unstableOCCooldown % 60;
                 String timeStr = String.format("%d:%02d", minutes, seconds);
-                drawContext.drawText(textRenderer, Text.literal(timeStr), scaledX + (unstableOCCooldown < 600 ? 1 : 0), scaledY, 0xFFFFFF, true);
-                drawContext.getMatrices().pop();
+                drawContext.drawText(textRenderer, Text.literal(timeStr), (unstableOCDuration < 600 ? 1 : 0), 0, 0xFFFFFFFF, true);
+                matrices.set(backupMatrix);
 
+//                drawContext.drawItem(unstableOverclock, startRightX + blankWidth * 3, yPos);
                 Identifier cooldownID = Identifier.of("cfm", "textures/item/cooldown.png");
-                Function<Identifier, RenderLayer> renderLayerFunc = id -> RenderLayer.getGuiTextured(cooldownID);
-                drawContext.drawTexture(renderLayerFunc, cooldownID, startRightX + blankWidth * 3, yPos, 0f, 0f, 16, 16, 16, 16);
+                drawContext.drawTexture(RenderPipelines.GUI_TEXTURED, cooldownID, startRightX + blankWidth * 3, yPos, 0f, 0f, 16, 16, 16, 16);
 
-            } else if (unstableOCDuration == 0 && unstableOCCooldown == 0) { // wait to be activated
-                drawContext.getMatrices().pop();
+            }
+            else if (unstableOCDuration == 0 && unstableOCCooldown == 0) { // wait to be activated
+                matrices.set(backupMatrix);
                 long gameTime = client.world.getTime();
-                int[] frameSequence = {0, 1, 2, 1}; // 帧序列：0=activated1, 1=activated2, 2=activated3
-                int frameTime = 4; // 每帧持续时间（游戏刻）
+                int[] frameSequence = {0, 1, 2, 1};
+                int frameTime = 4;
                 int currentFrameIndex = (int)((gameTime / frameTime) % frameSequence.length);
                 int frame = frameSequence[currentFrameIndex];
 
-                // 根据帧号选择对应的材质
                 Identifier waitID;
                 switch (frame) {
                     case 1 -> waitID = Identifier.of("cfm", "textures/item/activated1.png");
                     case 2 -> waitID = Identifier.of("cfm", "textures/item/activated2.png");
                     default -> waitID = Identifier.of("cfm", "textures/item/activated0.png");
                 }
-                Function<Identifier, RenderLayer> renderLayerFunc = id -> RenderLayer.getGuiTextured(waitID);
-                drawContext.drawTexture(renderLayerFunc, waitID, startRightX + blankWidth * 3, yPos, 0f, 0f, 16, 16, 16, 16);
-            } else //dr == -1 && cd == -1
+
+                drawContext.drawTexture(RenderPipelines.GUI_TEXTURED, waitID, startRightX + blankWidth * 3, yPos, 0f, 0f, 16, 16, 16, 16);
+            }
+            else //dr == -1 && cd == -1
             {
-                drawContext.getMatrices().pop();
+                matrices.set(backupMatrix);
                 drawContext.drawItem(unstableOverclock, startRightX + blankWidth * 3, yPos);
             }
         }
