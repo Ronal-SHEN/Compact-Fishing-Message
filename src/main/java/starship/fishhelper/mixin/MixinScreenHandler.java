@@ -35,7 +35,7 @@ public abstract class MixinScreenHandler {
                     }
                 }
                 if (itemStack.getName().getString().contains("Unstable Overclock")) {
-                    if (actionType == SlotActionType.QUICK_MOVE) // shift click (left and right all ok)
+                    if (actionType == SlotActionType.QUICK_MOVE && button == 0)
                         AugmentTracker.getInstance().activateUnstableOC(itemStack);
                 }
             }

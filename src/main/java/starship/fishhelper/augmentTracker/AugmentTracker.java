@@ -21,6 +21,8 @@ import starship.fishhelper.modMenu.ConfigData;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AugmentTracker {
     private static AugmentTracker instance;
@@ -170,8 +172,6 @@ public class AugmentTracker {
             bait = inventory.getStack(19);
             line = inventory.getStack(37);
 
-            // TODO: untest
-//            activateUnstableOC(unstableOverclock);
 
             ifHookOCNeedsShow = !hookOverclock.getName().getString().contains("Locked");
             ifMagnetOCNeedsShow = !magnetOverclock.getName().getString().contains("Locked");
@@ -211,8 +211,8 @@ public class AugmentTracker {
                 Item.TooltipContext.DEFAULT, client.player, TooltipType.BASIC);
         if (!tooltipLines.isEmpty() && tooltipLines.size() > 24){
             String rawIfActivate = tooltipLines.getLast().getString();
-            if (rawIfActivate.contains("active") || rawIfActivate.contains("On cooldown")) return;
-            //TODO: cant use oc when on cooldown or active
+            if (rawIfActivate.contains("Currently active") || rawIfActivate.contains("On cooldown")) return;
+            //cant use oc when on cooldown or active
 
             for (Text line : tooltipLines) {
                 String raw = line.getString();
@@ -228,6 +228,17 @@ public class AugmentTracker {
     public void recordAugment(){
         if (lineUsageRemain > 0) lineUsageRemain--;
     }
-    // TODO: pause bait number after buying/unboxing, disable bait render after running out of it(chat)
 
+    public void detectText(Text message) {
+        String msg = message.getString();
+        Pattern BAITRUNOUT = Pattern.compile("You've run out of your equipped \\[(.+?) Bait]");
+        Matcher matcher = BAITRUNOUT.matcher(msg);
+        if (matcher.find()) {
+            bait = ItemStack.EMPTY;
+        }
+
+    }
+    // TODO: pause bait number after buying/unboxing, disable bait render after running out of it(chat)
+    // TODO: dynamic sprite
+    // TODO: add blank letter when less than 10min
 }

@@ -26,7 +26,7 @@ import starship.fishhelper.modMenu.ConfigScreen;
 import starship.fishhelper.trevorOpener.TrevorOpener;
 
 public class MCCIFishHelper implements ClientModInitializer {
-    public static final String MOD_ID = "compact-fish-msg";
+    public static final String MOD_ID = "compact-fishing-message";
     public static final Logger logger = LoggerFactory.getLogger(MOD_ID);
     public static MCCIFishHelper instance;
     public static KeyBinding openConfigKeybind;
@@ -157,4 +157,6 @@ public class MCCIFishHelper implements ClientModInitializer {
         return ConfigData.getInstance();
     }
 
+    // TODO: open config file button
+    // TODO: rename
 }

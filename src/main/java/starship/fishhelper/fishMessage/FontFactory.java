@@ -40,7 +40,7 @@ public class FontFactory {
     private static void registerTrigger(String name) {
         Text finalText = switch (name) {
             case "Speedy Rod" -> Text.literal("").append(Text.literal("").append(
-                    Text.literal("\uE106").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
+                    Text.literal("\uE109").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal("Speedy Rod Perk\n\n").setStyle(
                             Style.EMPTY.withColor(0x219BF3)).append(Text.literal(
@@ -48,7 +48,7 @@ public class FontFactory {
                             Style.EMPTY.withColor(0x65FFFF)).append(Text.literal("Instantly").setStyle(
                             Style.EMPTY.withColor(Formatting.WHITE))).append(" upon casting.")))));
             case "Boosted Rod" -> Text.literal("").append(Text.literal("").append(
-                    Text.literal("\uE0F6").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
+                    Text.literal("\uE0F9").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent(HoverEvent.Action.SHOW_TEXT,
@@ -69,7 +69,7 @@ public class FontFactory {
                                     )
                     )));
             case "Graceful Rod" -> Text.literal("").append(Text.literal("").append(
-                    Text.literal("\uE0FE").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
+                    Text.literal("\uE101").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent(HoverEvent.Action.SHOW_TEXT,
@@ -80,7 +80,7 @@ public class FontFactory {
                     )
             ));
             case "Glitched Rod" -> Text.literal("").append(Text.literal("").append(
-                    Text.literal("\uE0FD").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
+                    Text.literal("\uE100").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent(HoverEvent.Action.SHOW_TEXT,
@@ -91,7 +91,7 @@ public class FontFactory {
                     )
             ));
             case "Stable Rod" -> Text.literal("").append(Text.literal("").append(
-                    Text.literal("\uE108").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
+                    Text.literal("\uE10B").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent(HoverEvent.Action.SHOW_TEXT,
@@ -102,7 +102,7 @@ public class FontFactory {
                     )
             ));
             case "XP Magnet" -> Text.literal("").append(Text.literal("").append(
-                    Text.literal("\uE111").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
+                    Text.literal("\uE114").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent(HoverEvent.Action.SHOW_TEXT,
@@ -115,7 +115,7 @@ public class FontFactory {
                     )
             ));
             case "Fish Magnet" -> Text.literal("").append(Text.literal("").append(
-                    Text.literal("\uE0F9").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
+                    Text.literal("\uE0FC").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent(HoverEvent.Action.SHOW_TEXT,
@@ -128,7 +128,7 @@ public class FontFactory {
                     )
             ));
             case "Pearl Magnet" -> Text.literal("").append(Text.literal("").append(
-                    Text.literal("\uE105").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
+                    Text.literal("\uE108").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent(HoverEvent.Action.SHOW_TEXT,
@@ -141,7 +141,7 @@ public class FontFactory {
                     )
             ));
             case "Treasure Magnet" -> Text.literal("").append(Text.literal("").append(
-                    Text.literal("\uE10D").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
+                    Text.literal("\uE110").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent(HoverEvent.Action.SHOW_TEXT,
@@ -154,7 +154,7 @@ public class FontFactory {
                     )
             ));
             case "Spirit Magnet" -> Text.literal("").append(Text.literal("").append(
-                    Text.literal("\uE107").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
+                    Text.literal("\uE10A").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent(HoverEvent.Action.SHOW_TEXT,
@@ -167,7 +167,7 @@ public class FontFactory {
                     )
             ));
             case "Supply Preserve" -> Text.literal("").append(Text.literal("").append(
-                    Text.literal("\uE10C").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
+                    Text.literal("\uE10F").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent(HoverEvent.Action.SHOW_TEXT,
@@ -177,7 +177,7 @@ public class FontFactory {
                     )
             ));
             case "Elusive Catch" -> Text.literal("").append(Text.literal("").append(
-                    Text.literal("\uE0F3").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
+                    Text.literal("\uE0F6").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent(HoverEvent.Action.SHOW_TEXT,

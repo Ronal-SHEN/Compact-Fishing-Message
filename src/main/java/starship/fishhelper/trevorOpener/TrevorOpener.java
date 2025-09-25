@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class TrevorOpener {
     private static final Pattern RECIEVE_PATTERN = Pattern.compile(
-            ".*\\(\uE156\\) You receive: \\[(.+?)](?: x(\\d{1,3}(?:,\\d{3})*))?\\s*$"
+            ".*\\(\uE15B\\) You receive: \\[(.+?)](?: x(\\d{1,3}(?:,\\d{3})*))?\\s*$"
     );
     public static EventState eventState = EventState.INACTIVE; // only 1 event
     public static boolean ifTreasureOnClick = false;
@@ -41,7 +41,6 @@ public class TrevorOpener {
         this.augment = new Augment();
         this.cosmetic = new Cosmetic();
 
-//        MCCIFishHelper.logger.info("TrevorOpener Initialized");
     }
 
     public static TrevorOpener getInstance() {
@@ -218,3 +217,4 @@ public class TrevorOpener {
         ACTIVE, INACTIVE
     }
 }
+// linebait换行

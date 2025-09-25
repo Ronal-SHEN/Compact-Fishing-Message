@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "compact-fishmsg",
+	"id": "compact-fishing-message",
 	"version": "${version}",
 	"name": "MCCI Compact Fishing Messages",
 	"description": "More compact fishing messages for server MCC Island!",

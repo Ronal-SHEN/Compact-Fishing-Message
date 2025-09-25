@@ -20,26 +20,26 @@ public class Augment extends Recorder {
 
     );
     private static final Map<String, String> ICON_MAP = new LinkedHashMap<>() {{
-        put("Strong Hook Augment", "\uE10A"); // from mcci pack
-        put("XP Magnet Augment", "\uE111");
-        put("Boosted Rod Augment", "\uE0F6");
-        put("Strong Pot Augment", "\uE10B");
-        put("Wise Hook Augment", "\uE10F");
-        put("Fish Magnet Augment", "\uE0F9");
-        put("Speedy Rod Augment", "\uE106");
-        put("Wise Pot Augment", "\uE110");
-        put("Glimmering Hook Augment", "\uE0FB");
-        put("Pearl Magnet Augment", "\uE105");
-        put("Graceful Rod Augment", "\uE0FE");
-        put("Glimmering Pot Augment", "\uE0FC");
-        put("Greedy Hook Augment", "\uE100");
-        put("Treasure Magnet Augment", "\uE10D");
-        put("Glitched Rod Augment", "\uE0FD");
-        put("Greedy Pot Augment", "\uE101");
-        put("Lucky Hook Augment", "\uE103");
-        put("Spirit Magnet Augment", "\uE107");
-        put("Stable Rod Augment", "\uE108");
-        put("Lucky Pot Augment", "\uE104");
+        put("Strong Hook Augment", "\uE10D"); // from mcci pack
+        put("XP Magnet Augment", "\uE114");
+        put("Boosted Rod Augment", "\uE0F9");
+        put("Strong Pot Augment", "\uE10E");
+        put("Wise Hook Augment", "\uE112");
+        put("Fish Magnet Augment", "\uE0FC");
+        put("Speedy Rod Augment", "\uE109");
+        put("Wise Pot Augment", "\uE113");
+        put("Glimmering Hook Augment", "\uE0FE");
+        put("Pearl Magnet Augment", "\uE108");
+        put("Graceful Rod Augment", "\uE101");
+        put("Glimmering Pot Augment", "\uE0FF");
+        put("Greedy Hook Augment", "\uE103");
+        put("Treasure Magnet Augment", "\uE110");
+        put("Glitched Rod Augment", "\uE100");
+        put("Greedy Pot Augment", "\uE104");
+        put("Lucky Hook Augment", "\uE106");
+        put("Spirit Magnet Augment", "\uE10A");
+        put("Stable Rod Augment", "\uE10B");
+        put("Lucky Pot Augment", "\uE107");
     }};
 
     @Override

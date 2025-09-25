@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import starship.fishhelper.augmentTracker.AugmentTracker;
 import starship.fishhelper.fishMessage.FishMessage;
 import starship.fishhelper.trevorOpener.TrevorOpener;
 
@@ -28,6 +29,7 @@ public abstract class MixinChatListener {
         if (TrevorOpener.getInstance().shouldChatMsgCancel(message)) {
             ci.cancel();
         }
+        AugmentTracker.getInstance().detectText(message);
     }
 
     @ModifyVariable(

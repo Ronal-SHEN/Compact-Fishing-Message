@@ -23,7 +23,7 @@ import static java.lang.Math.min;
 
 
 public class FishMessage {
-    private static final Pattern CAUGHT_PATTERN = Pattern.compile("\\(\uE156\\) You caught: \\[(.+?)](?: x(\\d+))?\\s*$");
+    private static final Pattern CAUGHT_PATTERN = Pattern.compile("\\(\uE15B\\) You caught: \\[(.+?)](?: x(\\d+))?\\s*$");
     private static final Pattern TRIGGER_PATTERN = Pattern.compile(".*\uE018 (Triggered|Special): .+? (.+)");
     private static final Pattern XP_PATTERN = Pattern.compile("\uE018 You earned: (\\d+) Island XP");
     private static final Set<String> KNOWN_TRIGGER_NAMES = Set.of(
@@ -44,7 +44,6 @@ public class FishMessage {
 
     public FishMessage(MCCIFishHelper fishHelper) {
         FishMessage.instance = this;
-//        MCCIFishHelper.logger.info("FishMessage class created");
     }
 
     public static FishMessage getInstance() {
@@ -82,8 +81,6 @@ public class FishMessage {
         Matcher caughtMatcher = CAUGHT_PATTERN.matcher(msg);
         Matcher triggerMatcher = TRIGGER_PATTERN.matcher(msg);
         Matcher earnedMatcher = XP_PATTERN.matcher(msg);
-
-        if (session.isActive && (Util.getMeasuringTimeMs() - session.catchTime) > 1000 * 3) session.reset();
 
         if (caughtMatcher.find() && !session.isActive) {
             ifMatch = true;
@@ -138,6 +135,8 @@ public class FishMessage {
             session.reset();
             return true;
         }
+        if (ifMatch && session.isActive && (Util.getMeasuringTimeMs() - session.catchTime) > 1000 * 30) session.reset();
+
         return false;
     }
 
@@ -175,16 +174,16 @@ public class FishMessage {
         MutableText root = Text.empty();
         for (Text msg1 : fullText.getSiblings()) {
             String str1 = msg1.getString();
-            if (!str1.contains("\uE156"))
+            if (!str1.contains("\uE15B"))
                 root.append(msg1);
             else {
                 MutableText root1 = Text.empty();
                 for (Text msg2 : msg1.getSiblings()) {
                     String str2 = msg2.getString();
 
-                    if (!str2.contains("\uE156")) root1.append(msg2);
+                    if (!str2.contains("\uE15B")) root1.append(msg2);
                     else {
-                        if (str2.equals("\uE156")) {
+                        if (str2.equals("\uE15B")) {
                             ifFound = true;
                             root1.append(FontFactory.getCategory(session.catType));
 //                            break;
@@ -196,7 +195,7 @@ public class FishMessage {
                         MutableText root2 = Text.empty();
                         for (Text msg3 : msg2.getSiblings()) {
                             String str3 = msg3.getString();
-                            if (!str3.equals("\uE156"))
+                            if (!str3.equals("\uE15B"))
                                 root2.append(msg3);
                             else {
                                 root2.append(FontFactory.getCategory(session.catType));
@@ -215,3 +214,5 @@ public class FishMessage {
     }
 
 }
+// TODO: 3s -> more and check if active
+// TODO: 结构优化
