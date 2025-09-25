@@ -8,8 +8,7 @@
 		"Wandering_Star71"
 	],
 	"contact": {
-		"homepage": "https://modrinth.com/mod/mcci-compact-fishing-message",
-		"sources": "https://github.com/Wandering-Star71/MCCI-Compact-Fishing-Message"
+		"homepage": "https://modrinth.com/mod/mcci-compact-fishing-message"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/cfm/icon.png",
@@ -25,7 +24,7 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.16.10",
-		"minecraft": "1.21.4",
+		"minecraft": "1.21.5",
 		"java": ">=21",
 		"fabric-api": "*",
 		"cloth-config": "*"

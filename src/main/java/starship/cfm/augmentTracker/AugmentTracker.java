@@ -238,7 +238,7 @@ public class AugmentTracker {
 
     public void detectText(Text message) {
         String msg = message.getString();
-        Pattern BAITRUNOUT = Pattern.compile("You've run out of your equipped \\[(.+?) Bait]");
+        Pattern BAITRUNOUT = Pattern.compile("You've run out of your equipped \\[(.+?) Bait]");  // "[]"
         Matcher matcher = BAITRUNOUT.matcher(msg);
         if (matcher.find()) {
             bait = ItemStack.EMPTY;

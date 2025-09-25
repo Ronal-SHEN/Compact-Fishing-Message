@@ -42,7 +42,7 @@ public class FontFactory {
             case "Speedy Rod" -> Text.literal("").append(Text.literal("").append(
                     Text.literal("\uE109").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))))).setStyle(Style.EMPTY.withHoverEvent(
-                    new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal("Speedy Rod Perk\n\n").setStyle(
+                    new HoverEvent.ShowText(Text.literal("Speedy Rod Perk\n\n").setStyle(
                             Style.EMPTY.withColor(0x219BF3)).append(Text.literal(
                             "When triggered after a catch, your next catch will appear ").setStyle(
                             Style.EMPTY.withColor(0x65FFFF)).append(Text.literal("Instantly").setStyle(
@@ -51,7 +51,7 @@ public class FontFactory {
                     Text.literal("\uE0F9").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
-                    new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                    new HoverEvent.ShowText(
                             Text.literal("Boosted Rod Perk\n\n").setStyle(Style.EMPTY.withColor(Formatting.RED))
                                     .append(Text.literal("When triggered, ").setStyle(Style.EMPTY.withColor(0x65FFFF))
                                             .append(Text.literal("doubles").setStyle(Style.EMPTY.withColor(Formatting.WHITE)))
@@ -72,7 +72,7 @@ public class FontFactory {
                     Text.literal("\uE101").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
-                    new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                    new HoverEvent.ShowText(
                             Text.literal("Graceful Rod Perk\n\n").setStyle(Style.EMPTY.withColor(0x8833FF))
                                     .append(Text.literal("When triggered, cancels the decrease in ").setStyle(Style.EMPTY.withColor(0x65FFFF))
                                             .append(Text.literal("Stock").setStyle(Style.EMPTY.withColor(Formatting.WHITE)))
@@ -83,7 +83,7 @@ public class FontFactory {
                     Text.literal("\uE100").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
-                    new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                    new HoverEvent.ShowText(
                             Text.literal("Glitched Rod Perk\n\n").setStyle(Style.EMPTY.withColor(0xFF7E40))
                                     .append(Text.literal("When triggered, your catch counts twice towards your ").setStyle(Style.EMPTY.withColor(0x65FFFF))
                                             .append(Text.literal("Research").setStyle(Style.EMPTY.withColor(Formatting.WHITE)))
@@ -94,7 +94,7 @@ public class FontFactory {
                     Text.literal("\uE10B").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
-                    new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                    new HoverEvent.ShowText(
                             Text.literal("Stable Rod Perk\n\n").setStyle(Style.EMPTY.withColor(0x23C725))
                                     .append(Text.literal("When triggered, cancels the loss of ").setStyle(Style.EMPTY.withColor(0x65FFFF))
                                             .append(Text.literal("Stability").setStyle(Style.EMPTY.withColor(Formatting.WHITE)))
@@ -105,7 +105,7 @@ public class FontFactory {
                     Text.literal("\uE114").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
-                    new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                    new HoverEvent.ShowText(
                             Text.literal("XP Magnet Perk\n\n").setStyle(Style.EMPTY.withColor(Formatting.RED))
                                     .append(Text.literal("Increases your chances of ").setStyle(Style.EMPTY.withColor(0x65FFFF))
                                             .append(Text.literal("Multiplying").setStyle(Style.EMPTY.withColor(Formatting.WHITE)))
@@ -118,7 +118,7 @@ public class FontFactory {
                     Text.literal("\uE0FC").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
-                    new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                    new HoverEvent.ShowText(
                             Text.literal("Fish Magnet Perk\n\n").setStyle(Style.EMPTY.withColor(0x219BF3))
                                     .append(Text.literal("When you catch a ").setStyle(Style.EMPTY.withColor(0x65FFFF))
                                             .append(Text.literal("Fish").setStyle(Style.EMPTY.withColor(Formatting.WHITE)))
@@ -131,7 +131,7 @@ public class FontFactory {
                     Text.literal("\uE108").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
-                    new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                    new HoverEvent.ShowText(
                             Text.literal("Pearl Magnet Perk\n\n").setStyle(Style.EMPTY.withColor(0x8833FF))
                                     .append(Text.literal("When you catch a ").setStyle(Style.EMPTY.withColor(0x65FFFF))
                                             .append(Text.literal("Pearl").setStyle(Style.EMPTY.withColor(Formatting.WHITE)))
@@ -144,7 +144,7 @@ public class FontFactory {
                     Text.literal("\uE110").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
-                    new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                    new HoverEvent.ShowText(
                             Text.literal("Treasure Magnet Perk\n\n").setStyle(Style.EMPTY.withColor(0xFF7E40))
                                     .append(Text.literal("When you catch a ").setStyle(Style.EMPTY.withColor(0x65FFFF))
                                             .append(Text.literal("Trevor").setStyle(Style.EMPTY.withColor(Formatting.WHITE)))
@@ -157,7 +157,7 @@ public class FontFactory {
                     Text.literal("\uE10A").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
-                    new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                    new HoverEvent.ShowText(
                             Text.literal("Spirit Magnet Perk\n\n").setStyle(Style.EMPTY.withColor(0x23C725))
                                     .append(Text.literal("When you catch a ").setStyle(Style.EMPTY.withColor(0x65FFFF))
                                             .append(Text.literal("Spirit").setStyle(Style.EMPTY.withColor(Formatting.WHITE)))
@@ -170,7 +170,7 @@ public class FontFactory {
                     Text.literal("\uE10F").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
-                    new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                    new HoverEvent.ShowText(
                             Text.literal("Supply Preserve Perk\n\n").setStyle(Style.EMPTY.withColor(Formatting.RED))
                                     .append(Text.literal("When triggered, prevents all equipped consumables from losing a use.").setStyle(
                                             Style.EMPTY.withColor(0x65FFFF)))
@@ -180,7 +180,7 @@ public class FontFactory {
                     Text.literal("\uE0F6").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("mcc", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
-                    new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                    new HoverEvent.ShowText(
                             Text.literal("You caught an Elusive Fish!\n\n").setStyle(Style.EMPTY.withColor(0x55FF56))
                                     .append(Text.literal("Elusive").setStyle(Style.EMPTY.withColor(Formatting.WHITE)))
                                     .append(" ")
