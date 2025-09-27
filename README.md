@@ -1,8 +1,8 @@
-Current version is 1.3.0
+Current version is 1.4
 
-View releases and feature introduction [here](https://modrinth.com/mod/mcci-compact-fishing-message).
+View releases and feature introduction [here](https://modrinth.com/mod/compact-fishing-message).
 
-Submit bugs/suggestions [here](https://github.com/Wandering-Star71/MCCI-Compact-Fishing-Message/issues).
+Submit bugs/suggestions [here](https://github.com/Wandering-Star71/Compact-Fishing-Message/issues).
 
 Check code branches of supported version(1.21.*).
 
