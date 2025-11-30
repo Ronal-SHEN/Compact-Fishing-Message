@@ -102,7 +102,7 @@ public class AugmentTracker {
             matrices.scale(0.5f, 0.5f);
 
             if (lineUsageRemain > 0) {
-                int xOffset = (lineUsageRemain > 100) ? -1 : (lineUsageRemain >= 10) ? 0 : 1;
+                int xOffset = (lineUsageRemain > 100) ? -4 : (lineUsageRemain >= 10) ? 0 : 1;
                 drawContext.drawText(textRenderer, Text.literal(String.valueOf(lineUsageRemain)), 0+ xOffset, 0, 0xFFFFFFFF, true);
                 matrices.set(backupMatrix);
                 drawContext.drawItem(line, startLeftX + blankWidth, yPos);
