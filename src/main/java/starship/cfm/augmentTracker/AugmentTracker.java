@@ -21,7 +21,6 @@ import starship.cfm.modMenu.ConfigData;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,6 +49,7 @@ public class AugmentTracker {
     private int lineUsageRemain = -1;
 
     private int tickCounter = 0;
+    private Pattern lineUseRemainPattern = Pattern.compile("Uses Remaining:\\s*(\\d+)/(\\d+)");
 
     public AugmentTracker(CompactFishingMessage cfm) {
         instance = this;
@@ -102,7 +102,7 @@ public class AugmentTracker {
             matrices.scale(0.5f, 0.5f);
 
             if (lineUsageRemain > 0) {
-                int xOffset = (lineUsageRemain < 10) ? 1 : 0;
+                int xOffset = (lineUsageRemain > 100) ? -1 : (lineUsageRemain >= 10) ? 0 : 1;
                 drawContext.drawText(textRenderer, Text.literal(String.valueOf(lineUsageRemain)), 0+ xOffset, 0, 0xFFFFFFFF, true);
                 matrices.set(backupMatrix);
                 drawContext.drawItem(line, startLeftX + blankWidth, yPos);
@@ -211,7 +211,10 @@ public class AugmentTracker {
                             Item.TooltipContext.DEFAULT, client.player, TooltipType.BASIC);
                     if (!tooltipLines.isEmpty() && tooltipLines.size() > 15) { // Uses Remaining: 23/50
                         String rawUses = tooltipLines.get(15).getString();
-                        lineUsageRemain = Integer.parseInt(rawUses.substring(rawUses.length() - 5, rawUses.length() - 3).trim());
+                        Matcher lineUserMatcher = lineUseRemainPattern.matcher(rawUses);
+                        if (lineUserMatcher.find()) {
+                            lineUsageRemain = Integer.parseInt(lineUserMatcher.group(1));
+                        }
                     }
                 } else
                     lineUsageRemain = -1;
@@ -255,6 +258,4 @@ public class AugmentTracker {
 
     }
     // TODO: pause bait number after buying/unboxing, disable bait render after running out of it(chat)
-    // TODO: dynamic sprite
-    // TODO: add blank letter when less than 10min
 }

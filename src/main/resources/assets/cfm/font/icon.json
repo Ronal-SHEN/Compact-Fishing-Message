@@ -356,6 +356,153 @@
       "ascent": 8,
       "height": 8,
       "chars": ["\uE109"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/aug/strong_hook.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE10D"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/aug/xp_magnet.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE10E"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/aug/boosted_rod.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE10F"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/aug/strong_pot.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE110"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/aug/wise_hook.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE111"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/aug/fish_magnet.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE112"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/aug/speedy_rod.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE113"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/aug/wise_pot.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE114"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/aug/glimmering_hook.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE115"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/aug/pearl_magnet.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE116"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/aug/graceful_rod.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE117"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/aug/glimmering_pot.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE118"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/aug/greedy_hook.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE119"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/aug/treasure_magnet.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE11A"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/aug/glitched_rod.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE11B"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/aug/greedy_pot.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE11C"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/aug/lucky_hook.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE11D"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/aug/spirit_magnet.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE11E"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/aug/stable_rod.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE11F"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/aug/lucky_pot.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE120"]
+    },
+    {
+      "type": "bitmap",
+      "file": "cfm:font/other/supply_preserve.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\uE121"]
     }
   ]
 }
