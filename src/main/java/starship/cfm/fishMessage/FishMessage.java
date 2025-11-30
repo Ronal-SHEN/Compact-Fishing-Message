@@ -23,9 +23,14 @@ import static java.lang.Math.min;
 
 
 public class FishMessage {
-    private static final Pattern CAUGHT_PATTERN = Pattern.compile("\\(\uE15B\\) You caught: \\[(.+?)](?: x(\\d+))?\\s*$");
-    private static final Pattern TRIGGER_PATTERN = Pattern.compile(".*\uE018 (Triggered|Special): .+? (.+)");
-    private static final Pattern XP_PATTERN = Pattern.compile("\uE018 You earned: (\\d+) Island XP");
+    private static final String CAUGHT_SYMBOL = "\uE15D";
+    private static final String TRIGGER_SYMBOL = "\uE018";
+    private static final Pattern CAUGHT_PATTERN =
+            Pattern.compile("\\(" + CAUGHT_SYMBOL + "\\) You caught: \\[(.+?)](?: x(\\d+))?\\s*$");
+    private static final Pattern TRIGGER_PATTERN =
+            Pattern.compile(".*" + TRIGGER_SYMBOL + " (Triggered|Special): .+? (.+)");
+    private static final Pattern XP_PATTERN =
+            Pattern.compile(TRIGGER_SYMBOL + " You earned: (\\d+) Island XP");
     private static final Set<String> KNOWN_TRIGGER_NAMES = Set.of(
             "Speedy Rod", "Boosted Rod", "Graceful Rod", "Stable Rod", "Glitched Rod",
             "XP Magnet", "Fish Magnet", "Pearl Magnet", "Treasure Magnet", "Spirit Magnet",
@@ -174,16 +179,16 @@ public class FishMessage {
         MutableText root = Text.empty();
         for (Text msg1 : fullText.getSiblings()) {
             String str1 = msg1.getString();
-            if (!str1.contains("\uE15B"))
+            if (!str1.contains(CAUGHT_SYMBOL))
                 root.append(msg1);
             else {
                 MutableText root1 = Text.empty();
                 for (Text msg2 : msg1.getSiblings()) {
                     String str2 = msg2.getString();
 
-                    if (!str2.contains("\uE15B")) root1.append(msg2);
+                    if (!str2.contains(CAUGHT_SYMBOL)) root1.append(msg2);
                     else {
-                        if (str2.equals("\uE15B")) {
+                        if (str2.equals(CAUGHT_SYMBOL)) {
                             ifFound = true;
                             root1.append(FontFactory.getCategory(session.catType));
 //                            break;
@@ -195,7 +200,7 @@ public class FishMessage {
                         MutableText root2 = Text.empty();
                         for (Text msg3 : msg2.getSiblings()) {
                             String str3 = msg3.getString();
-                            if (!str3.equals("\uE15B"))
+                            if (!str3.equals(CAUGHT_SYMBOL))
                                 root2.append(msg3);
                             else {
                                 root2.append(FontFactory.getCategory(session.catType));

@@ -20,26 +20,26 @@ public class Augment extends Recorder {
 
     );
     private static final Map<String, String> ICON_MAP = new LinkedHashMap<>() {{
-        put("Strong Hook Augment", "\uE10D"); // from mcci pack
-        put("XP Magnet Augment", "\uE114");
-        put("Boosted Rod Augment", "\uE0F9");
-        put("Strong Pot Augment", "\uE10E");
-        put("Wise Hook Augment", "\uE112");
-        put("Fish Magnet Augment", "\uE0FC");
-        put("Speedy Rod Augment", "\uE109");
-        put("Wise Pot Augment", "\uE113");
-        put("Glimmering Hook Augment", "\uE0FE");
-        put("Pearl Magnet Augment", "\uE108");
-        put("Graceful Rod Augment", "\uE101");
-        put("Glimmering Pot Augment", "\uE0FF");
-        put("Greedy Hook Augment", "\uE103");
-        put("Treasure Magnet Augment", "\uE110");
-        put("Glitched Rod Augment", "\uE100");
-        put("Greedy Pot Augment", "\uE104");
-        put("Lucky Hook Augment", "\uE106");
-        put("Spirit Magnet Augment", "\uE10A");
-        put("Stable Rod Augment", "\uE10B");
-        put("Lucky Pot Augment", "\uE107");
+        put("Strong Hook Augment", "\uE10D");
+        put("XP Magnet Augment", "\uE10E");
+        put("Boosted Rod Augment", "\uE10F");
+        put("Strong Pot Augment", "\uE110");
+        put("Wise Hook Augment", "\uE111");
+        put("Fish Magnet Augment", "\uE112");
+        put("Speedy Rod Augment", "\uE113");
+        put("Wise Pot Augment", "\uE114");
+        put("Glimmering Hook Augment", "\uE115");
+        put("Pearl Magnet Augment", "\uE116");
+        put("Graceful Rod Augment", "\uE117");
+        put("Glimmering Pot Augment", "\uE118");
+        put("Greedy Hook Augment", "\uE119");
+        put("Treasure Magnet Augment", "\uE11A");
+        put("Glitched Rod Augment", "\uE11B");
+        put("Greedy Pot Augment", "\uE11C");
+        put("Lucky Hook Augment", "\uE11D");
+        put("Spirit Magnet Augment", "\uE11E");
+        put("Stable Rod Augment", "\uE11F");
+        put("Lucky Pot Augment", "\uE120");
     }};
 
     @Override
@@ -56,7 +56,7 @@ public class Augment extends Recorder {
             int count = record.getOrDefault(name, 0);
             if (record.get(name) == 0) continue;
             root.append(Text.literal(icon).setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                    Identifier.of("mcc", "icon"))));
+                    Identifier.of("cfm", "icon"))));
             root.append(Text.literal(" x" + count + "  ").formatted(Formatting.GRAY));
             if ((name.contains("Strong Pot Augment") || name.contains("Wise Pot Augment")
                     || name.contains("Glimmering Pot Augment") || name.contains("Greedy Pot Augment"))
