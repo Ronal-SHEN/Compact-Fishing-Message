@@ -1,0 +1,21 @@
+{
+  "key.cfm.open_config": "Open Config Menu",
+  "category.cfm": "Compact Fishing Messages",
+  "title.cfm.config": "MCCI Compact Fishing Messages Settings",
+  "option.cfm.compact_fishmsg": "Enable Compact Fishing Message",
+  "option.cfm.trevor_opener": "Enable Receiving Treasure Messages",
+  "option.cfm.record_overlay": "Enable Record Overlay",
+  "group.cfm.render_settings": "Record Overlay Render Display Settings",
+  "option.cfm.render_x": "Text X Position",
+  "option.cfm.render_y": "Text Y Position",
+  "option.cfm.font_size": "Font Size",
+  "option.cfm.bg_color": "Background Alpha",
+  "option.cfm.text_color": "Text Color",
+  "option.cfm.cute_icon": "Shows CUTE icons",
+  "tooltip.cfm.compact_fishmsg": "When you catch something, whether shows more compact catching chat messages.",
+  "tooltip.cfm.trevor_opener": "Whether receives chat messages when TreasureOpenEvent is active.",
+  "tooltip.cfm.record_overlay": "Whether shows fishing record panel in your screen.",
+  "option.cfm.always_shows": "Show Panel Without Being on Islands",
+  "option.cfm.augment_overlay": "Enable Equipments Overlay",
+  "tooltip.cfm.augment_overlay": "Whether shows equipped line&bait and switched overclocks"
+}

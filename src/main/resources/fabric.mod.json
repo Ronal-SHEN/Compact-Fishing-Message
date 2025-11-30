@@ -1,0 +1,43 @@
+{
+	"schemaVersion": 1,
+	"id": "compact-fishing-message",
+	"version": "${version}",
+	"name": "MCCI Compact Fishing Messages",
+	"description": "More compact fishing messages for server MCC Island!",
+	"authors": [
+		"Wandering_Star71"
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/mod/mcci-compact-fishing-message",
+		"sources": "https://github.com/Wandering-Star71/MCCI-Compact-Fishing-Message"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/cfm/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"client": [
+			"starship.cfm.CompactFishingMessage"
+		],
+		"modmenu": [ "starship.cfm.modMenu.ModMenu" ]
+	},
+	"mixins": [
+		"cfm.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.10",
+		"minecraft": "1.21.4",
+		"java": ">=21",
+		"fabric-api": "*",
+		"cloth-config": "*"
+	},
+	"suggests": {
+		"another-mod": "cloth-config"
+	},
+
+	"custom": {
+		"modmenu": {
+			"badges": [],
+			"update_checker": true
+		}
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"required": true,
+	"package": "starship.cfm.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"MixinChatListener",
+		"MixinChatHudAccessor",
+		"MixinChatHud",
+		"MixinScreenHandler"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
