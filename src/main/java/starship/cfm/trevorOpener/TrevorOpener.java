@@ -11,8 +11,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TrevorOpener {
-    private static final Pattern RECIEVE_PATTERN = Pattern.compile(
-            ".*\\(\uE15B\\) You receive: \\[(.+?)](?: x(\\d{1,3}(?:,\\d{3})*))?\\s*$"
+    private static final String RECEIVE_SYMBOL = "\uE15D";
+    private static final Pattern RECEIVE_PATTERN = Pattern.compile(
+            ".*\\(" + RECEIVE_SYMBOL + "\\) You receive: \\[(.+?)](?: x(\\d{1,3}(?:,\\d{3})*))?\\s*$"
     );
     public static EventState eventState = EventState.INACTIVE; // only 1 event
     public static boolean ifTreasureOnClick = false;
@@ -75,7 +76,7 @@ public class TrevorOpener {
         if (eventState == EventState.INACTIVE) return false;
         if (!ifReceivedMsgAfterOpen && !ConfigData.getInstance().enableTreasureReciMsg) return false;
 
-        Matcher matcher = RECIEVE_PATTERN.matcher(text.getString());
+        Matcher matcher = RECEIVE_PATTERN.matcher(text.getString());
         if (!matcher.find()) return false;
         String name = matcher.group(1).trim();
         String countStr = matcher.group(2);
