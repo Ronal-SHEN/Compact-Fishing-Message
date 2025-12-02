@@ -141,7 +141,7 @@ public class FontFactory {
                     )
             ));
             case "Treasure Magnet" -> Text.literal("").append(Text.literal("").append(
-                    Text.literal("\uE114").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
+                    Text.literal("\uE11A").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
                             Identifier.of("cfm", "icon"))
                     ))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent.ShowText(
