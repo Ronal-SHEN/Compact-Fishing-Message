@@ -16,7 +16,7 @@ import starship.cfm.trevorOpener.TrevorOpener;
 public abstract class MixinScreenHandler {
     @Inject(method = "internalOnSlotClick", at = @At("HEAD"))
     private void onSlotClick(int slotId, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
-        if (player.getWorld().isClient) {
+        if (player.getEntityWorld().isClient()) {
             if (slotId >= 0 && slotId < 100) { // click inside gui // 48 49 50
                 if (TrevorOpener.getInstance().ifSUMMAEYScreenOpened && (slotId == 48 || slotId == 49 || slotId == 50))
                     TrevorOpener.getInstance().detectScreenSUMMARYClose();

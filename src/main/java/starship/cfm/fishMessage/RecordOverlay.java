@@ -7,6 +7,7 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.scoreboard.ScoreboardDisplaySlot;
 import net.minecraft.scoreboard.ScoreboardObjective;
 import net.minecraft.text.Style;
+import net.minecraft.text.StyleSpriteSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -84,7 +85,7 @@ public class RecordOverlay {
 
             if (ConfigData.getInstance().fishRecordIconShows) {
                 Text iconText = Text.literal(icon).setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                        Identifier.of("cfm", "icon")));
+                        new StyleSpriteSource.Font(Identifier.of("cfm", "icon"))));
                 drawContext.drawText(textRenderer, iconText, 4, lineY, textColor, false);
                 drawContext.drawText(textRenderer, line, 15, lineY, textColor, false);
             } else
@@ -114,7 +115,7 @@ public class RecordOverlay {
 
     private void getFishingTimeFromScoreBoard() {
         if (client != null && client.player != null && client.world != null) {
-            Scoreboard scoreboard = client.player.getScoreboard();
+            Scoreboard scoreboard = client.world.getScoreboard();
             ScoreboardObjective objective = scoreboard.getObjectiveForSlot(ScoreboardDisplaySlot.SIDEBAR);
             if (objective != null) {
                 String objectiveName = objective.getDisplayName().getString();

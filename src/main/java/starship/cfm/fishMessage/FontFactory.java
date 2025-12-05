@@ -2,6 +2,7 @@ package starship.cfm.fishMessage;
 
 import net.minecraft.text.HoverEvent;
 import net.minecraft.text.Style;
+import net.minecraft.text.StyleSpriteSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -41,7 +42,7 @@ public class FontFactory {
         Text finalText = switch (name) {
             case "Speedy Rod" -> Text.literal("").append(Text.literal("").append(
                     Text.literal("\uE113").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                            Identifier.of("cfm", "icon"))))).setStyle(Style.EMPTY.withHoverEvent(
+                            new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent.ShowText(Text.literal("Speedy Rod Perk\n\n").setStyle(
                             Style.EMPTY.withColor(0x219BF3)).append(Text.literal(
                             "When triggered after a catch, your next catch will appear ").setStyle(
@@ -49,8 +50,7 @@ public class FontFactory {
                             Style.EMPTY.withColor(Formatting.WHITE))).append(" upon casting.")))));
             case "Boosted Rod" -> Text.literal("").append(Text.literal("").append(
                     Text.literal("\uE10F").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                            Identifier.of("cfm", "icon"))
-                    ))).setStyle(Style.EMPTY.withHoverEvent(
+                            new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent.ShowText(
                             Text.literal("Boosted Rod Perk\n\n").setStyle(Style.EMPTY.withColor(Formatting.RED))
                                     .append(Text.literal("When triggered, ").setStyle(Style.EMPTY.withColor(0x65FFFF))
@@ -70,8 +70,7 @@ public class FontFactory {
                     )));
             case "Graceful Rod" -> Text.literal("").append(Text.literal("").append(
                     Text.literal("\uE117").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                            Identifier.of("cfm", "icon"))
-                    ))).setStyle(Style.EMPTY.withHoverEvent(
+                            new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent.ShowText(
                             Text.literal("Graceful Rod Perk\n\n").setStyle(Style.EMPTY.withColor(0x8833FF))
                                     .append(Text.literal("When triggered, cancels the decrease in ").setStyle(Style.EMPTY.withColor(0x65FFFF))
@@ -81,8 +80,7 @@ public class FontFactory {
             ));
             case "Glitched Rod" -> Text.literal("").append(Text.literal("").append(
                     Text.literal("\uE11B").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                            Identifier.of("cfm", "icon"))
-                    ))).setStyle(Style.EMPTY.withHoverEvent(
+                            new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent.ShowText(
                             Text.literal("Glitched Rod Perk\n\n").setStyle(Style.EMPTY.withColor(0xFF7E40))
                                     .append(Text.literal("When triggered, your catch counts twice towards your ").setStyle(Style.EMPTY.withColor(0x65FFFF))
@@ -92,8 +90,7 @@ public class FontFactory {
             ));
             case "Stable Rod" -> Text.literal("").append(Text.literal("").append(
                     Text.literal("\uE11F").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                            Identifier.of("cfm", "icon"))
-                    ))).setStyle(Style.EMPTY.withHoverEvent(
+                            new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent.ShowText(
                             Text.literal("Stable Rod Perk\n\n").setStyle(Style.EMPTY.withColor(0x23C725))
                                     .append(Text.literal("When triggered, cancels the loss of ").setStyle(Style.EMPTY.withColor(0x65FFFF))
@@ -103,8 +100,7 @@ public class FontFactory {
             ));
             case "XP Magnet" -> Text.literal("").append(Text.literal("").append(
                     Text.literal("\uE10E").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                            Identifier.of("cfm", "icon"))
-                    ))).setStyle(Style.EMPTY.withHoverEvent(
+                            new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent.ShowText(
                             Text.literal("XP Magnet Perk\n\n").setStyle(Style.EMPTY.withColor(Formatting.RED))
                                     .append(Text.literal("Increases your chances of ").setStyle(Style.EMPTY.withColor(0x65FFFF))
@@ -116,8 +112,7 @@ public class FontFactory {
             ));
             case "Fish Magnet" -> Text.literal("").append(Text.literal("").append(
                     Text.literal("\uE112").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                            Identifier.of("cfm", "icon"))
-                    ))).setStyle(Style.EMPTY.withHoverEvent(
+                            new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent.ShowText(
                             Text.literal("Fish Magnet Perk\n\n").setStyle(Style.EMPTY.withColor(0x219BF3))
                                     .append(Text.literal("When you catch a ").setStyle(Style.EMPTY.withColor(0x65FFFF))
@@ -129,8 +124,7 @@ public class FontFactory {
             ));
             case "Pearl Magnet" -> Text.literal("").append(Text.literal("").append(
                     Text.literal("\uE116").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                            Identifier.of("cfm", "icon"))
-                    ))).setStyle(Style.EMPTY.withHoverEvent(
+                            new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent.ShowText(
                             Text.literal("Pearl Magnet Perk\n\n").setStyle(Style.EMPTY.withColor(0x8833FF))
                                     .append(Text.literal("When you catch a ").setStyle(Style.EMPTY.withColor(0x65FFFF))
@@ -141,9 +135,8 @@ public class FontFactory {
                     )
             ));
             case "Treasure Magnet" -> Text.literal("").append(Text.literal("").append(
-                    Text.literal("\uE114").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                            Identifier.of("cfm", "icon"))
-                    ))).setStyle(Style.EMPTY.withHoverEvent(
+                    Text.literal("\uE11A").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
+                            new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent.ShowText(
                             Text.literal("Treasure Magnet Perk\n\n").setStyle(Style.EMPTY.withColor(0xFF7E40))
                                     .append(Text.literal("When you catch a ").setStyle(Style.EMPTY.withColor(0x65FFFF))
@@ -155,8 +148,7 @@ public class FontFactory {
             ));
             case "Spirit Magnet" -> Text.literal("").append(Text.literal("").append(
                     Text.literal("\uE11E").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                            Identifier.of("cfm", "icon"))
-                    ))).setStyle(Style.EMPTY.withHoverEvent(
+                            new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent.ShowText(
                             Text.literal("Spirit Magnet Perk\n\n").setStyle(Style.EMPTY.withColor(0x23C725))
                                     .append(Text.literal("When you catch a ").setStyle(Style.EMPTY.withColor(0x65FFFF))
@@ -168,8 +160,7 @@ public class FontFactory {
             ));
             case "Supply Preserve" -> Text.literal("").append(Text.literal("").append(
                     Text.literal("\uE121").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                            Identifier.of("cfm", "icon"))
-                    ))).setStyle(Style.EMPTY.withHoverEvent(
+                            new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent.ShowText(
                             Text.literal("Supply Preserve Perk\n\n").setStyle(Style.EMPTY.withColor(Formatting.RED))
                                     .append(Text.literal("When triggered, prevents all equipped consumables from losing a use.").setStyle(
@@ -178,8 +169,7 @@ public class FontFactory {
             ));
             case "Elusive Catch" -> Text.literal("").append(Text.literal("").append(
                     Text.literal("\uE065").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                            Identifier.of("cfm", "icon"))
-                    ))).setStyle(Style.EMPTY.withHoverEvent(
+                            new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))))).setStyle(Style.EMPTY.withHoverEvent(
                     new HoverEvent.ShowText(
                             Text.literal("You caught an Elusive Fish!\n\n").setStyle(Style.EMPTY.withColor(0x55FF56))
                                     .append(Text.literal("Elusive").setStyle(Style.EMPTY.withColor(Formatting.WHITE)))
@@ -200,22 +190,22 @@ public class FontFactory {
         Text text = switch (category) {
             case JUNK -> Text.empty().append(Text.literal("(").setStyle(Style.EMPTY.withColor(0x23D106)))
                     .append(Text.literal("").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                            Identifier.of("cfm", "icon"))));
+                            new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))));
             case NORMAL_FISH -> Text.empty().append(Text.literal("(").setStyle(Style.EMPTY.withColor(0x23D106)))
                     .append(Text.literal("").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                            Identifier.of("cfm", "icon"))));
+                            new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))));
             case ELUSIVE_FISH -> Text.empty().append(Text.literal("(").setStyle(Style.EMPTY.withColor(0x23D106)))
                     .append(Text.literal("").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                            Identifier.of("cfm", "icon"))));
+                            new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))));
             case PEARL -> Text.empty().append(Text.literal("(").setStyle(Style.EMPTY.withColor(0x23D106)))
                     .append(Text.literal("").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                            Identifier.of("cfm", "icon"))));
+                            new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))));
             case TREASURE -> Text.empty().append(Text.literal("(").setStyle(Style.EMPTY.withColor(0x23D106)))
                     .append(Text.literal("").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                            Identifier.of("cfm", "icon"))));
+                            new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))));
             case SPIRIT -> Text.empty().append(Text.literal("(").setStyle(Style.EMPTY.withColor(0x23D106)))
                     .append(Text.literal("").setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                            Identifier.of("cfm", "icon"))));
+                            new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))));
         };
 
         CATEGORY_TEXTS.put(category.name(), text);

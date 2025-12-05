@@ -24,6 +24,7 @@ import starship.cfm.fishMessage.FishMessage;
 import starship.cfm.modMenu.ConfigData;
 import starship.cfm.modMenu.ConfigScreen;
 import starship.cfm.trevorOpener.TrevorOpener;
+import net.minecraft.text.StyleSpriteSource;
 
 public class CompactFishingMessage implements ClientModInitializer {
     public static final String MOD_ID = "compact-fishing-message";
@@ -51,7 +52,7 @@ public class CompactFishingMessage implements ClientModInitializer {
                 "key.cfm.open_config",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_K,
-                "category.cfm"
+                KeyBinding.Category.create(Identifier.of("cfm", "main"))
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -119,7 +120,7 @@ public class CompactFishingMessage implements ClientModInitializer {
                 saveConfig();
                 Text text = Text.empty()
                         .append(Text.literal("\uE109").setStyle(
-                                Style.EMPTY.withColor(Formatting.WHITE).withFont(Identifier.of("cfm", "icon"))
+                                Style.EMPTY.withColor(Formatting.WHITE).withFont(new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))
                         ))
                         .append(Text.literal(" Hi! Thanks for using MCCI Compact Fishing Messages!")
                                 .setStyle(Style.EMPTY.withColor(0xCAD0E8)))
