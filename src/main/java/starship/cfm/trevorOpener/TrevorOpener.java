@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TrevorOpener {
-    private static final String RECEIVE_SYMBOL = "\uE16A";
+    private static final String RECEIVE_SYMBOL = "\uE170";
     private static final Pattern RECEIVE_PATTERN = Pattern.compile(
             ".*\\(" + RECEIVE_SYMBOL + "\\) You receive: \\[(.+?)](?: x(\\d{1,3}(?:,\\d{3})*))?\\s*$"
     );
