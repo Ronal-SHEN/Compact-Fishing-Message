@@ -23,7 +23,7 @@ import static java.lang.Math.min;
 
 
 public class FishMessage {
-    private static final String CAUGHT_SYMBOL = "\uE16A";
+    private static final String CAUGHT_SYMBOL = "\uE170";
     private static final String TRIGGER_SYMBOL = "\uE018";
     private static final Pattern CAUGHT_PATTERN =
             Pattern.compile("\\(" + CAUGHT_SYMBOL + "\\) You caught: \\[(.+?)](?: x(\\d+))?\\s*$");
