@@ -23,14 +23,20 @@ import static java.lang.Math.min;
 
 
 public class FishMessage {
-    private static final String CAUGHT_SYMBOL = "\uE170";
-    private static final String TRIGGER_SYMBOL = "\uE018";
+//        private static final String CAUGHT_SYMBOL = "\uE170";
+//    private static final String TRIGGER_SYMBOL = "\uE018";
+//    private static final Pattern CAUGHT_PATTERN =
+//            Pattern.compile("\\(" + CAUGHT_SYMBOL + "\\) You caught: \\[(.+?)](?: x(\\d+))?\\s*$");
+//    private static final Pattern TRIGGER_PATTERN =
+//            Pattern.compile(".*" + TRIGGER_SYMBOL + " (Triggered|Special): .+? (.+)");
     private static final Pattern CAUGHT_PATTERN =
-            Pattern.compile("\\(" + CAUGHT_SYMBOL + "\\) You caught: \\[(.+?)](?: x(\\d+))?\\s*$");
+            Pattern.compile("\\([^)]*\\) You caught: \\[(.+?)](?: x(\\d+))?\\s*$");
     private static final Pattern TRIGGER_PATTERN =
-            Pattern.compile(".*" + TRIGGER_SYMBOL + " (Triggered|Special): .+? (.+)");
+            Pattern.compile("^.*? (Triggered|Special): .+? (.+)$");
+    //    private static final Pattern XP_PATTERN =
+//            Pattern.compile(TRIGGER_SYMBOL + " You earned: (\\d+) Island XP");
     private static final Pattern XP_PATTERN =
-            Pattern.compile(TRIGGER_SYMBOL + " You earned: (\\d+) Island XP");
+            Pattern.compile(".* You earned: (\\d+) Island XP");
     private static final Set<String> KNOWN_TRIGGER_NAMES = Set.of(
             "Speedy Rod", "Boosted Rod", "Graceful Rod", "Stable Rod", "Glitched Rod",
             "XP Magnet", "Fish Magnet", "Pearl Magnet", "Treasure Magnet", "Spirit Magnet",
@@ -174,6 +180,13 @@ public class FishMessage {
 
     public MutableText extractCaughtMessage(Text fullText) {
         String msg = fullText.getString();
+
+        Pattern TEMP_CAUGHT_PATTERN =
+                Pattern.compile("\\(([^)]*)\\)\\s+You caught:.*");
+        Matcher m = TEMP_CAUGHT_PATTERN.matcher(msg);
+
+        if (!m.find()) return null;
+        String CAUGHT_SYMBOL = m.group(1);
 
         boolean ifFound = false;
         MutableText root = Text.empty();

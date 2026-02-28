@@ -11,9 +11,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TrevorOpener {
-    private static final String RECEIVE_SYMBOL = "\uE170";
+    //    private static final String RECEIVE_SYMBOL = "\uE170";
+//    private static final Pattern RECEIVE_PATTERN = Pattern.compile(
+//            ".*\\(" + RECEIVE_SYMBOL + "\\) You receive: \\[(.+?)](?: x(\\d{1,3}(?:,\\d{3})*))?\\s*$"
+//    );
     private static final Pattern RECEIVE_PATTERN = Pattern.compile(
-            ".*\\(" + RECEIVE_SYMBOL + "\\) You receive: \\[(.+?)](?: x(\\d{1,3}(?:,\\d{3})*))?\\s*$"
+            ".*\\([^)]*\\) You receive: \\[(.+?)](?: x(\\d{1,3}(?:,\\d{3})*))?\\s*$"
     );
     public static EventState eventState = EventState.INACTIVE; // only 1 event
     public static boolean ifTreasureOnClick = false;

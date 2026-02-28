@@ -13,6 +13,7 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
 import org.joml.Matrix3x2f;
 import org.joml.Matrix3x2fStack;
 import starship.cfm.CompactFishingMessage;
@@ -150,10 +151,10 @@ public class AugmentTracker {
             }
             else if (unstableOCDuration == 0 && unstableOCCooldown == 0) { // wait to be activated
                 matrices.set(backupMatrix);
-                long gameTime = client.world.getTime();
+                long currentTime = Util.getMeasuringTimeMs();
                 int[] frameSequence = {0, 1, 2, 1};
-                int frameTime = 4;
-                int currentFrameIndex = (int)((gameTime / frameTime) % frameSequence.length);
+                long frameDurationMs = 200;
+                int currentFrameIndex = (int)((currentTime / frameDurationMs) % frameSequence.length);
                 int frame = frameSequence[currentFrameIndex];
 
                 Identifier waitID;
