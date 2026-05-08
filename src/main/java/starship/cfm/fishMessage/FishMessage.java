@@ -1,12 +1,12 @@
 package starship.cfm.fishMessage;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.hud.ChatHud;
-import net.minecraft.client.gui.hud.ChatHudLine;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.ChatComponent;
+import net.minecraft.client.multiplayer.chat.GuiMessage;
 import net.minecraft.util.Util;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import starship.cfm.CompactFishingMessage;
 import starship.cfm.augmentTracker.AugmentTracker;
 import starship.cfm.mixin.MixinChatHudAccessor;
@@ -23,8 +23,8 @@ import static java.lang.Math.min;
 
 
 public class FishMessage {
-//    private static final String CAUGHT_SYMBOL = "\uE170";
-//    private static final String TRIGGER_SYMBOL = "\uE018";
+//    private static final String CAUGHT_SYMBOL = "";
+//    private static final String TRIGGER_SYMBOL = "";
 //    private static final Pattern CAUGHT_PATTERN =
 //            Pattern.compile("\\(" + CAUGHT_SYMBOL + "\\) You caught: \\[(.+?)](?: x(\\d+))?\\s*$");
 //    private static final Pattern TRIGGER_PATTERN =
@@ -43,13 +43,13 @@ public class FishMessage {
             "Elusive Catch", "Supply Preserve"
     );
     private static FishMessage instance;
-    private static MinecraftClient client;
+    private static Minecraft client;
     public final RecordOverlay recordOverlay = new RecordOverlay();
     private final boolean ifDebug = false;
     private final FishSession session = new FishSession();
     public boolean ifInFishingIsland = false;
-    private List<ChatHudLine.Visible> chatVisibleMessages;
-    private List<ChatHudLine> chatMessages;
+    private List<GuiMessage.Line> chatVisibleMessages;
+    private List<GuiMessage> chatMessages;
     private String chatHistoryFishMessage = "";
     private boolean ifMatch = false;
 
@@ -61,10 +61,10 @@ public class FishMessage {
         return instance;
     }
 
-    public void tick(MinecraftClient client) {
-        if (client != null && client.player != null && client.world != null) {
+    public void tick(Minecraft client) {
+        if (client != null && client.player != null && client.level != null) {
             FishMessage.client = client;
-            ChatHud chatHud = FishMessage.client.inGameHud.getChatHud();
+            ChatComponent chatHud = FishMessage.client.gui.getChat();
             chatVisibleMessages = ((MixinChatHudAccessor) chatHud).getVisibleMessages();
             chatMessages = ((MixinChatHudAccessor) chatHud).getMessages();
             this.recordOverlay.tick(client);
@@ -72,9 +72,9 @@ public class FishMessage {
         }
     }
 
-    public Text sendGameMsg(Text text) {
+    public Component sendGameMsg(Component text) {
         if (!ConfigData.getInstance().enableCompactFishmsg) return text;
-        if (client == null || client.player == null || client.world == null) return text;
+        if (client == null || client.player == null || client.level == null) return text;
         if (!ifMatch) return text;
         if (session.isActive) {
             return session.caughtMessage.copy();
@@ -83,9 +83,9 @@ public class FishMessage {
 
     }
 
-    public boolean shouldChatMsgCancel(Text text) {
+    public boolean shouldChatMsgCancel(Component text) {
         if (!ConfigData.getInstance().enableCompactFishmsg) return false;
-        if (client == null || client.player == null || client.world == null) return false;
+        if (client == null || client.player == null || client.level == null) return false;
         ifMatch = false;
         String msg = text.getString();
 
@@ -97,7 +97,7 @@ public class FishMessage {
             ifMatch = true;
             session.isActive = true;
 
-            session.catchTime = Util.getMeasuringTimeMs();
+            session.catchTime = Util.getMillis();
             session.lootName = caughtMatcher.group(1).trim();
             String countStr = caughtMatcher.group(2);
             session.lootCount = (countStr != null) ? Integer.parseInt(countStr) : 1;
@@ -110,12 +110,13 @@ public class FishMessage {
 
         if (triggerMatcher.find() && session.isActive) {
             ifMatch = true;
-            Text icon = extractTriggerIcon(text);
+            Component icon = extractTriggerIcon(text);
             if (chatVisibleMessages == null || chatMessages == null) return true;
             for (int i = 0; i < min(5, chatMessages.size()); i++) {
                 if (chatMessages.get(i).content().getString().contains(session.caughtMessage.getString())) {
-                    session.caughtMessage.append(Text.literal(" ")).append(icon);
+                    session.caughtMessage.append(Component.literal(" ")).append(icon);
                     chatMessages.remove(i);
+                    // TODO: verify endOfEntry() method name in Mojang 26.1 ChatComponent.VisibleLine
                     if (!chatVisibleMessages.get(i).endOfEntry())
                         for (int j = i + 1; j < min(chatVisibleMessages.size(), 10); j++) {
                             if (chatVisibleMessages.get(j).endOfEntry()) {
@@ -146,12 +147,12 @@ public class FishMessage {
             session.reset();
             return true;
         }
-        if (ifMatch && session.isActive && (Util.getMeasuringTimeMs() - session.catchTime) > 1000 * 30) session.reset();
+        if (ifMatch && session.isActive && (Util.getMillis() - session.catchTime) > 1000 * 30) session.reset();
 
         return false;
     }
 
-    public boolean shouldHistoryChatCancel(Text text) { // false = no change
+    public boolean shouldHistoryChatCancel(Component text) { // false = no change
         if (!ConfigData.getInstance().enableCompactFishmsg) return false;
         if (chatVisibleMessages != null || chatMessages != null) return false;
         String plain = text.getString();
@@ -170,15 +171,15 @@ public class FishMessage {
         return false;
     }
 
-    public Text extractTriggerIcon(Text fullText) {
+    public Component extractTriggerIcon(Component fullText) {
         String plain = fullText.getString();
 
         Optional<String> matchedName = KNOWN_TRIGGER_NAMES.stream().filter(plain::contains).findFirst();
 
-        return matchedName.map(FontFactory::get).orElse(Text.empty());
+        return matchedName.map(FontFactory::get).orElse(Component.empty());
     }
 
-    public MutableText extractCaughtMessage(Text fullText) {
+    public MutableComponent extractCaughtMessage(Component fullText) {
         String msg = fullText.getString();
 
         Pattern TEMP_CAUGHT_PATTERN =
@@ -189,14 +190,14 @@ public class FishMessage {
         String CAUGHT_SYMBOL = m.group(1);
 
         boolean ifFound = false;
-        MutableText root = Text.empty();
-        for (Text msg1 : fullText.getSiblings()) {
+        MutableComponent root = Component.empty();
+        for (Component msg1 : fullText.getSiblings()) {
             String str1 = msg1.getString();
             if (!str1.contains(CAUGHT_SYMBOL))
                 root.append(msg1);
             else {
-                MutableText root1 = Text.empty();
-                for (Text msg2 : msg1.getSiblings()) {
+                MutableComponent root1 = Component.empty();
+                for (Component msg2 : msg1.getSiblings()) {
                     String str2 = msg2.getString();
 
                     if (!str2.contains(CAUGHT_SYMBOL)) root1.append(msg2);
@@ -207,11 +208,11 @@ public class FishMessage {
 //                            break;
                         }
                         if (ifFound) {
-                            root1.append(Text.literal(") You caught:").setStyle(Style.EMPTY.withColor(0x23D106)));
+                            root1.append(Component.literal(") You caught:").setStyle(Style.EMPTY.withColor(0x23D106)));
                             break;
                         }
-                        MutableText root2 = Text.empty();
-                        for (Text msg3 : msg2.getSiblings()) {
+                        MutableComponent root2 = Component.empty();
+                        for (Component msg3 : msg2.getSiblings()) {
                             String str3 = msg3.getString();
                             if (!str3.equals(CAUGHT_SYMBOL))
                                 root2.append(msg3);

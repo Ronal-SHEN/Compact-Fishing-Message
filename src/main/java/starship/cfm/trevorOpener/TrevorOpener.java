@@ -1,9 +1,9 @@
 package starship.cfm.trevorOpener;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
 import net.minecraft.util.Util;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import starship.cfm.CompactFishingMessage;
 import starship.cfm.modMenu.ConfigData;
 
@@ -23,7 +23,7 @@ public class TrevorOpener {
     public static boolean ifTreasureRlyOpened = false;
     public static boolean ifReceivedMsgAfterOpen = false;
     private static TrevorOpener instance;
-    private static MinecraftClient client;
+    private static Minecraft client;
     public final Treasure treasure;
     private final Lure lure;
     private final Tech tech;
@@ -51,11 +51,11 @@ public class TrevorOpener {
         return instance;
     }
 
-    public void tick(MinecraftClient client) {
-        if (client != null && client.player != null && client.world != null) {
+    public void tick(Minecraft client) {
+        if (client != null && client.player != null && client.level != null) {
             TrevorOpener.client = client;
             if (!ifTreasureOnClick && treasureMenuClosedTime != 0
-                    && (Util.getMeasuringTimeMs() - treasureMenuClosedTime) > 10 * 1000) { // its fine to set time long
+                    && (Util.getMillis() - treasureMenuClosedTime) > 10 * 1000) { // its fine to set time long
                 ifReceivedMsgAfterOpen = false;
             }
 //            client.player.sendMessage(Text.of("ifTreasureOnClick: " + ifTreasureOnClick
@@ -66,7 +66,7 @@ public class TrevorOpener {
     }
 
     public void recordTreasure(String name, int count) {
-        if (client != null && client.player != null && client.world != null) {
+        if (client != null && client.player != null && client.level != null) {
 //            this.treasure.record(name, count);
             pendingTreasureName = name;
             pendingTreasureCount = count;
@@ -75,7 +75,7 @@ public class TrevorOpener {
         }
     }
 
-    public boolean shouldChatMsgCancel(Text text) {
+    public boolean shouldChatMsgCancel(Component text) {
         if (eventState == EventState.INACTIVE) return false;
         if (!ifReceivedMsgAfterOpen && !ConfigData.getInstance().enableTreasureReciMsg) return false;
 
@@ -101,60 +101,60 @@ public class TrevorOpener {
     }
 
     public void eventStart() {
-        if (client == null || client.world == null || client.player == null) return;
+        if (client == null || client.level == null || client.player == null) return;
         if (eventState == EventState.INACTIVE) {
-            client.player.sendMessage(Text.literal("TreasureOpen event created.")
-                    .formatted(Formatting.DARK_GREEN).formatted(Formatting.BOLD), false);
+            client.player.sendSystemMessage(Component.literal("TreasureOpen event created.")
+                    .withStyle(ChatFormatting.DARK_GREEN).withStyle(ChatFormatting.BOLD));
 
             this.resetEvent();
             eventState = EventState.ACTIVE;
         } else {
-            client.player.sendMessage(Text.literal("You already have an active event!")
-                    .formatted(Formatting.DARK_RED).formatted(Formatting.BOLD), false);
+            client.player.sendSystemMessage(Component.literal("You already have an active event!")
+                    .withStyle(ChatFormatting.DARK_RED).withStyle(ChatFormatting.BOLD));
         }
 
     }
 
     public void eventEnd() {
-        if (client == null || client.world == null || client.player == null) return;
+        if (client == null || client.level == null || client.player == null) return;
         if (eventState == EventState.INACTIVE) {
-            client.player.sendMessage(Text.literal("There is no active event to stop!")
-                    .formatted(Formatting.DARK_RED).formatted(Formatting.BOLD), false);
+            client.player.sendSystemMessage(Component.literal("There is no active event to stop!")
+                    .withStyle(ChatFormatting.DARK_RED).withStyle(ChatFormatting.BOLD));
         } else {
             if (treasure.summary().getString().isBlank()) {
-                client.player.sendMessage(Text.literal("You have opened Nothing!")
-                        .formatted(Formatting.BOLD).formatted(Formatting.DARK_RED), false);
+                client.player.sendSystemMessage(Component.literal("You have opened Nothing!")
+                        .withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.DARK_RED));
             } else {
                 eventState = EventState.INACTIVE;
-                client.player.sendMessage(Text.literal("You have opened: ")
-                        .formatted(Formatting.BOLD).formatted(Formatting.DARK_GREEN), false);
-                client.player.sendMessage(treasure.summary(), false);
+                client.player.sendSystemMessage(Component.literal("You have opened: ")
+                        .withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.DARK_GREEN));
+                client.player.sendSystemMessage(treasure.summary());
 
-                client.player.sendMessage(Text.literal("You have received: ")
-                        .formatted(Formatting.BOLD).formatted(Formatting.DARK_GREEN), false);
-                client.player.sendMessage(Text.literal("————————————————————————————————————")
-                        .formatted(Formatting.DARK_GRAY), false);
+                client.player.sendSystemMessage(Component.literal("You have received: ")
+                        .withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.DARK_GREEN));
+                client.player.sendSystemMessage(Component.literal("————————————————————————————————————")
+                        .withStyle(ChatFormatting.DARK_GRAY));
 
-                client.player.sendMessage(Text.literal("Bait&Line: ").formatted(Formatting.DARK_GREEN), false);
-                client.player.sendMessage(baitLine.summary(), false); // bait&line cant be empty
+                client.player.sendSystemMessage(Component.literal("Bait&Line: ").withStyle(ChatFormatting.DARK_GREEN));
+                client.player.sendSystemMessage(baitLine.summary()); // bait&line cant be empty
                 if (!augment.summary().getString().isBlank()) {
-                    client.player.sendMessage(Text.literal("Augment: ").formatted(Formatting.DARK_GREEN), false);
-                    client.player.sendMessage(augment.summary(), false);
+                    client.player.sendSystemMessage(Component.literal("Augment: ").withStyle(ChatFormatting.DARK_GREEN));
+                    client.player.sendSystemMessage(augment.summary());
                 }
                 if (!lure.summary().getString().isBlank()) {
-                    client.player.sendMessage(Text.literal("Lure: ").formatted(Formatting.DARK_GREEN), false);
-                    client.player.sendMessage(lure.summary(), false);
+                    client.player.sendSystemMessage(Component.literal("Lure: ").withStyle(ChatFormatting.DARK_GREEN));
+                    client.player.sendSystemMessage(lure.summary());
                 }
                 if (!tech.summary().getString().isBlank()) {
-                    client.player.sendMessage(Text.literal("Tech: ").formatted(Formatting.DARK_GREEN), false);
-                    client.player.sendMessage(tech.summary(), false);
+                    client.player.sendSystemMessage(Component.literal("Tech: ").withStyle(ChatFormatting.DARK_GREEN));
+                    client.player.sendSystemMessage(tech.summary());
                 }
                 if (!cosmetic.summary().getString().isBlank()) {
-                    client.player.sendMessage(Text.literal("Cosmetic: ").formatted(Formatting.DARK_GREEN), false);
-                    client.player.sendMessage(cosmetic.summary(), false);
+                    client.player.sendSystemMessage(Component.literal("Cosmetic: ").withStyle(ChatFormatting.DARK_GREEN));
+                    client.player.sendSystemMessage(cosmetic.summary());
                 }
-                client.player.sendMessage(Text.literal("————————————————————————————————————")
-                        .formatted(Formatting.DARK_GRAY), false);
+                client.player.sendSystemMessage(Component.literal("————————————————————————————————————")
+                        .withStyle(ChatFormatting.DARK_GRAY));
             }
 
         }
@@ -178,9 +178,9 @@ public class TrevorOpener {
     }
 
     public void detectScreenINFINIBAG() {
-        if (client == null || client.world == null || client.player == null) {
+        if (client == null || client.level == null || client.player == null) {
         }
-//        client.player.sendMessage(Text.of("title is: "+ title), false);
+//        client.player.sendSystemMessage(Text.of("title is: "+ title));
 //        ifTreasureOnClick = false; // could be somewhere else
 //        ifTreasureRlyOpened = false;
 //        treasureOpenedTime = 0;
@@ -189,10 +189,10 @@ public class TrevorOpener {
     }
 
     public void detectScreenSUMMARYOpen() {
-        if (client == null || client.world == null || client.player == null) return;
+        if (client == null || client.level == null || client.player == null) return;
         if (ifTreasureOnClick) { // dont need to detect scenario like: click chest but not open
             ifTreasureRlyOpened = true;
-            treasureMenuOpenedTime = Util.getMeasuringTimeMs();
+            treasureMenuOpenedTime = Util.getMillis();
             this.treasure.record(pendingTreasureName, pendingTreasureCount);
             pendingTreasureName = "";
             pendingTreasureCount = 0;
@@ -204,10 +204,10 @@ public class TrevorOpener {
     }
 
     public void detectScreenSUMMARYClose() {
-        if (client == null || client.world == null || client.player == null) return;
+        if (client == null || client.level == null || client.player == null) return;
         if (ifTreasureOnClick && ifTreasureRlyOpened) {
             ifSUMMAEYScreenOpened = false;
-            treasureMenuClosedTime = Util.getMeasuringTimeMs();
+            treasureMenuClosedTime = Util.getMillis();
 //          ifReceivedMsgAfterOpen = true;
             ifTreasureOnClick = false;
 

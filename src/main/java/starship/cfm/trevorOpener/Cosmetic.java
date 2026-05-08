@@ -1,8 +1,8 @@
 package starship.cfm.trevorOpener;
 
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -72,20 +72,20 @@ public class Cosmetic extends Recorder {
     }
 
     @Override
-    public Text summary() {
-        MutableText root = Text.literal("  ");
+    public Component summary() {
+        MutableComponent root = Component.literal("  ");
         if (record.get("Legendary") != 0)
-            root.append(Text.literal("Legendary").formatted(Formatting.GOLD))
-                    .append(Text.literal(" x" + record.get("Legendary") + "     ").formatted(Formatting.GRAY));
+            root.append(Component.literal("Legendary").withStyle(ChatFormatting.GOLD))
+                    .append(Component.literal(" x" + record.get("Legendary") + "     ").withStyle(ChatFormatting.GRAY));
         if (record.get("Epic") != 0)
-            root.append(Text.literal("Epic").formatted(Formatting.DARK_PURPLE))
-                    .append(Text.literal(" x" + record.get("Epic") + "     ").formatted(Formatting.GRAY));
+            root.append(Component.literal("Epic").withStyle(ChatFormatting.DARK_PURPLE))
+                    .append(Component.literal(" x" + record.get("Epic") + "     ").withStyle(ChatFormatting.GRAY));
         if (record.get("Rare") != 0)
-            root.append(Text.literal("Rare").formatted(Formatting.BLUE))
-                    .append(Text.literal(" x" + record.get("Rare") + "     ").formatted(Formatting.GRAY));
+            root.append(Component.literal("Rare").withStyle(ChatFormatting.BLUE))
+                    .append(Component.literal(" x" + record.get("Rare") + "     ").withStyle(ChatFormatting.GRAY));
         if (record.get("Uncommon") != 0)
-            root.append(Text.literal("Uncommon").formatted(Formatting.GREEN))
-                    .append(Text.literal(" x" + record.get("Uncommon")).formatted(Formatting.GRAY));
+            root.append(Component.literal("Uncommon").withStyle(ChatFormatting.GREEN))
+                    .append(Component.literal(" x" + record.get("Uncommon")).withStyle(ChatFormatting.GRAY));
         return root;
     }
 }

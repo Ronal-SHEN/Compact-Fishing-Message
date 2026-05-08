@@ -1,21 +1,22 @@
 package starship.cfm;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommands;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.inventory.ContainerScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FontDescription;
+import net.minecraft.network.chat.Style;
+import net.minecraft.resources.Identifier;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +25,12 @@ import starship.cfm.fishMessage.FishMessage;
 import starship.cfm.modMenu.ConfigData;
 import starship.cfm.modMenu.ConfigScreen;
 import starship.cfm.trevorOpener.TrevorOpener;
-import net.minecraft.text.StyleSpriteSource;
 
 public class CompactFishingMessage implements ClientModInitializer {
     public static final String MOD_ID = "compact-fishing-message";
     public static final Logger logger = LoggerFactory.getLogger(MOD_ID);
     public static CompactFishingMessage instance;
-    public static KeyBinding openConfigKeybind;
+    public static KeyMapping openConfigKeybind;
     private FishMessage fishmessage;
     private TrevorOpener trevoropener;
     private AugmentTracker augmenttracker;
@@ -48,22 +48,22 @@ public class CompactFishingMessage implements ClientModInitializer {
         this.augmenttracker = new AugmentTracker(this);
 
         ClientTickEvents.END_CLIENT_TICK.register(this::tick);
-        openConfigKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        openConfigKeybind = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.cfm.open_config",
-                InputUtil.Type.KEYSYM,
+                InputConstants.Type.KEYSYM,
                 GLFW.GLFW_KEY_K,
-                KeyBinding.Category.create(Identifier.of("cfm", "main"))
+                KeyMapping.Category.register(Identifier.fromNamespaceAndPath("cfm", "main"))
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (openConfigKeybind.wasPressed()) {
-                if (client.player != null && client.currentScreen == null) {
+            while (openConfigKeybind.consumeClick()) {
+                if (client.player != null && client.screen == null) {
                     client.setScreen(ConfigScreen.buildScreen(CompactFishingMessage.getInstance(), null));
                 }
             }
         });
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
-            if (screen instanceof GenericContainerScreen containerScreen) {
+            if (screen instanceof ContainerScreen containerScreen) {
                 String title = containerScreen.getTitle().getString();
                 if (title.contains("INFINIBAG")) {
                     this.trevoropener.detectScreenINFINIBAG();
@@ -87,12 +87,12 @@ public class CompactFishingMessage implements ClientModInitializer {
 
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
             dispatcher.register(
-                    ClientCommandManager.literal("TreasureOpenEvent")
-                            .then(ClientCommandManager.literal("create").executes(context -> {
+                    ClientCommands.literal("TreasureOpenEvent")
+                            .then(ClientCommands.literal("create").executes(context -> {
                                 this.trevoropener.eventStart();
                                 return 0;
                             }))
-                            .then(ClientCommandManager.literal("stop").executes(context -> {
+                            .then(ClientCommands.literal("stop").executes(context -> {
                                 this.trevoropener.eventEnd();
                                 return 0;
                             }))
@@ -101,42 +101,42 @@ public class CompactFishingMessage implements ClientModInitializer {
 
         HudElementRegistry.attachElementAfter(
                 VanillaHudElements.MISC_OVERLAYS,
-                Identifier.of("fish-helper", "fish-record-layer"),
+                Identifier.fromNamespaceAndPath("fish-helper", "fish-record-layer"),
                 (drawContext, tickDelta) -> {
                     this.fishmessage.recordOverlay.render(drawContext);
                 }
         );
         HudElementRegistry.attachElementAfter(
-                Identifier.of("fish-helper", "fish-record-layer"),
-                Identifier.of("fish-helper", "fish-augment-layer"),
+                Identifier.fromNamespaceAndPath("fish-helper", "fish-record-layer"),
+                Identifier.fromNamespaceAndPath("fish-helper", "fish-augment-layer"),
                 (drawContext, tickDelta) -> {
                     this.augmenttracker.render(drawContext);
                 }
         );
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (!ConfigData.getInstance().didInfoShowOnce && client.player != null && client.player.age == 20) {
+            if (!ConfigData.getInstance().didInfoShowOnce && client.player != null && client.player.tickCount == 20) {
                 ConfigData.getInstance().didInfoShowOnce = true;
                 saveConfig();
-                Text text = Text.empty()
-                        .append(Text.literal("\uE109").setStyle(
-                                Style.EMPTY.withColor(Formatting.WHITE).withFont(new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))
+                Component text = Component.empty()
+                        .append(Component.literal("").setStyle(
+                                Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(new FontDescription.Resource(Identifier.fromNamespaceAndPath("cfm", "icon")))
                         ))
-                        .append(Text.literal(" Hi! Thanks for using MCCI Compact Fishing Messages!")
+                        .append(Component.literal(" Hi! Thanks for using MCCI Compact Fishing Messages!")
                                 .setStyle(Style.EMPTY.withColor(0xCAD0E8)))
-                        .append(Text.literal(" (This message will only show up once.) ")
+                        .append(Component.literal(" (This message will only show up once.) ")
                                 .setStyle(Style.EMPTY.withColor(0xD8D8D8).withItalic(true)))
-                        .append(Text.literal("All settings can be customized via Mod Menu or by pressing K ")
+                        .append(Component.literal("All settings can be customized via Mod Menu or by pressing K ")
                                 .setStyle(Style.EMPTY.withColor(0xFFDCD1).withBold(true)))
-                        .append(Text.literal("Thanks for support again <3. I will (hopefully) update more in the future... Enjoy!")
+                        .append(Component.literal("Thanks for support again <3. I will (hopefully) update more in the future... Enjoy!")
                                 .setStyle(Style.EMPTY.withColor(0xCAD0E8)));
 
-                client.player.sendMessage(text, false);
+                client.player.sendSystemMessage(text);
             }
         });
     }
 
-    public void tick(MinecraftClient client) {
+    public void tick(Minecraft client) {
         this.fishmessage.tick(client);
         this.trevoropener.tick(client);
         this.augmenttracker.tick(client);

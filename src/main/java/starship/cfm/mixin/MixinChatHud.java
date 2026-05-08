@@ -2,10 +2,10 @@ package starship.cfm.mixin;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.hud.ChatHud;
-import net.minecraft.client.gui.hud.MessageIndicator;
-import net.minecraft.network.message.MessageSignatureData;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.components.ChatComponent;
+import net.minecraft.client.multiplayer.chat.GuiMessageTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MessageSignature;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -15,14 +15,14 @@ import starship.cfm.fishMessage.FishMessage;
 
 
 @Environment(EnvType.CLIENT)
-@Mixin(value = ChatHud.class, priority = 1000)
+@Mixin(value = ChatComponent.class, priority = 1000)
 public abstract class MixinChatHud {
     @Inject(
-            method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V",
+            method = "addPlayerMessage(Lnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/MessageSignature;Lnet/minecraft/client/multiplayer/chat/GuiMessageTag;)V",
             at = @At("HEAD"),
             cancellable = true
     )
-    private void cancelMessage(Text m, MessageSignatureData signatureData, MessageIndicator indicator, CallbackInfo ci) {
+    private void cancelMessage(Component m, MessageSignature signatureData, GuiMessageTag indicator, CallbackInfo ci) {
         if (FishMessage.getInstance().shouldHistoryChatCancel(m)) {
             ci.cancel();
         }
@@ -30,11 +30,11 @@ public abstract class MixinChatHud {
     }
 
     @ModifyVariable(
-            method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V",
+            method = "addPlayerMessage(Lnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/MessageSignature;Lnet/minecraft/client/multiplayer/chat/GuiMessageTag;)V",
             at = @At("HEAD"),
             argsOnly = true
     )
-    private Text modifyMessage(Text m) {
+    private Component modifyMessage(Component m) {
 //        m = FishMessage.getInstance().sendChatMsg(m);
         return m;
     }

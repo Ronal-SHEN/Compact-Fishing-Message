@@ -4,7 +4,7 @@
       "type": "bitmap",
       "file": "cfm:font/trash_common.png",
       "chars": [
-        ""
+        "\uE185"
       ],
       "ascent": 8,
       "height": 8
@@ -14,35 +14,35 @@
       "file": "cfm:font/pearl_polished.png",
       "ascent": 8,
       "height": 8,
-      "chars": [""]
+      "chars": ["\uE180"]
     },
     {
       "type": "bitmap",
       "file": "cfm:font/anglr_treasure_epic.png",
       "ascent": 8,
       "height": 8,
-      "chars": [""]
+      "chars": ["\uE201"]
     },
     {
       "type": "bitmap",
       "file": "cfm:font/spirit_refined_strong.png",
       "ascent": 8,
       "height": 8,
-      "chars": [""]
+      "chars": ["\uE103"]
     },
     {
       "type": "bitmap",
       "file": "cfm:font/lime_sole.png",
       "ascent": 8,
       "height": 8,
-      "chars": [""]
+      "chars": ["\uE0DE"]
     },
     {
       "type": "bitmap",
       "file": "cfm:font/lemon_sole.png",
       "ascent": 8,
       "height": 8,
-      "chars": [""]
+      "chars": ["\uE000"]
     },
 
     {

@@ -1,6 +1,6 @@
 package starship.cfm.trevorOpener;
 
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -46,6 +46,6 @@ public abstract class Recorder {
 
     protected abstract Set<String> getNames();
 
-    protected abstract Text summary();
+    protected abstract Component summary();
 
 }

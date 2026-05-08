@@ -1,24 +1,24 @@
 package starship.cfm.fishMessage;
 
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import starship.cfm.itemCategory.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FishSession {
-    public final List<Text> triggerIcons = new ArrayList<>();
+    public final List<Component> triggerIcons = new ArrayList<>();
     public final List<String> triggers = new ArrayList<>();
     public String lootName = "";
     public int lootCount = 1;
-    public MutableText caughtMessage = null;
+    public MutableComponent caughtMessage = null;
     public int xpGained = 0;
     public boolean isActive = false;
     public boolean isLast = false;
     public long catchTime = 0;
 
-    public Text msgSummary = null;
+    public Component msgSummary = null;
     public FontFactory.CategoryType catType = null;
 
     public void reset() {

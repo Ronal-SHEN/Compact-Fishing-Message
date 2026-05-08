@@ -1,16 +1,16 @@
 package starship.cfm.fishMessage;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.scoreboard.Scoreboard;
-import net.minecraft.scoreboard.ScoreboardDisplaySlot;
-import net.minecraft.scoreboard.ScoreboardObjective;
-import net.minecraft.text.Style;
-import net.minecraft.text.StyleSpriteSource;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FontDescription;
+import net.minecraft.network.chat.Style;
+import net.minecraft.resources.Identifier;
+import net.minecraft.ChatFormatting;
+import net.minecraft.world.scores.DisplaySlot;
+import net.minecraft.world.scores.Objective;
+import net.minecraft.world.scores.Scoreboard;
 import org.joml.Matrix3x2f;
 import org.joml.Matrix3x2fStack;
 import starship.cfm.modMenu.ConfigData;
@@ -28,7 +28,7 @@ public class RecordOverlay {
             "VERDANT WOODS", "FLORAL FOREST", "DARK GROVE", "SUNKEN SWAMP",
             "TROPICAL OVERGROWTH", "CORAL SHORES", "TWISTED SWAMP", "MIRRORED OASIS",
             "ANCIENT SANDS", "BLAZING CANYON", "ASHEN WASTES", "VOLCANIC SPRINGS");
-    private static MinecraftClient client;
+    private static Minecraft client;
     public boolean ifInFishingIsland = false;
     private int tickCounter = 0;
     private int linboTickCounter = 0;
@@ -43,15 +43,15 @@ public class RecordOverlay {
     private int spiritCaught = 0;
     private int xpGained = 0;
 
-    public void tick(MinecraftClient client) {
-        if (client != null && client.player != null && client.world != null) {
+    public void tick(Minecraft client) {
+        if (client != null && client.player != null && client.level != null) {
             RecordOverlay.client = client;
             getFishingTimeFromScoreBoard();
         }
     }
 
-    public void render(DrawContext drawContext) {
-        if (client == null || client.options == null || client.player == null || client.world == null) return;
+    public void render(GuiGraphicsExtractor guiGraphics) {
+        if (client == null || client.options == null || client.player == null || client.level == null) return;
         if (!ConfigData.getInstance().enableFishRecordOverlay) return;
         if (!ConfigData.getInstance().fishRecordOverlayAlwaysShows && !ifInFishingIsland) return;
 
@@ -61,18 +61,18 @@ public class RecordOverlay {
         int backgroundColor = ConfigData.getInstance().fishRecordBackgroundAlphaColor << 24;
         int textColor = 0xFF000000 | (ConfigData.getInstance().fishRecordTextRGBColor & 0xFFFFFF);
 
-        TextRenderer textRenderer = client.textRenderer;
-        Matrix3x2fStack matrices = drawContext.getMatrices();
+        Font font = client.font;
+        Matrix3x2fStack matrices = guiGraphics.pose();
         Matrix3x2f backupMatrix = new Matrix3x2f(matrices);
 
         List<Map.Entry<String, String>> renderEntries = getRenderEntries();
 
         String sampleLine = renderEntries.size() > 1 ? renderEntries.get(1).getValue() : "";
-        int maxWidth = 35 + textRenderer.getWidth(sampleLine);
+        int maxWidth = 35 + font.width(sampleLine);
         float lineHeight = 11.5f;
         int totalHeight = (int) ((lineHeight + 1) * renderEntries.size());
 
-        drawContext.fill(x, y, x + (int) (maxWidth * scale), y + (int) (totalHeight * scale), backgroundColor);
+        guiGraphics.fill(x, y, x + (int) (maxWidth * scale), y + (int) (totalHeight * scale), backgroundColor);
         matrices.translate(x, y);
         matrices.scale(scale, scale);
 
@@ -84,12 +84,12 @@ public class RecordOverlay {
             String line = entry.getValue();
 
             if (ConfigData.getInstance().fishRecordIconShows) {
-                Text iconText = Text.literal(icon).setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                        new StyleSpriteSource.Font(Identifier.of("cfm", "icon"))));
-                drawContext.drawText(textRenderer, iconText, 4, lineY, textColor, false);
-                drawContext.drawText(textRenderer, line, 15, lineY, textColor, false);
+                Component iconText = Component.literal(icon).setStyle(Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(
+                        new FontDescription.Resource(Identifier.fromNamespaceAndPath("cfm", "icon"))));
+                guiGraphics.text(font, iconText, 4, lineY, textColor, false);
+                guiGraphics.text(font, line, 15, lineY, textColor, false);
             } else
-                drawContext.drawText(textRenderer, line, 4, lineY, textColor, false);
+                guiGraphics.text(font, line, 4, lineY, textColor, false);
 
         }
         matrices.set(backupMatrix);
@@ -99,24 +99,24 @@ public class RecordOverlay {
     private List<Map.Entry<String, String>> getRenderEntries() {
         List<Map.Entry<String, String>> entries = new ArrayList<>();
 
-        entries.add(Map.entry("\uE100", "Time: " +
+        entries.add(Map.entry("", "Time: " +
                 (fishingTime >= 60 ? (fishingTime / 60) + "h " : "") + (fishingTime % 60) + "m"));
-        entries.add(Map.entry("\uE101", "Reel-ins: " + lootReelInTimes));
-        entries.add(Map.entry("\uE102", "XP: " + String.format("%,d", xpGained)));
-        entries.add(Map.entry("\uE10A", "Junk: " + junkCaught));
-        entries.add(Map.entry("\uE104", "Normal: " + normalFishCaught));
-        entries.add(Map.entry("\uE105", "Elusive: " + elusiveFishCaught));
-        entries.add(Map.entry("\uE106", "Pearl: " + pearlCaught));
-        entries.add(Map.entry("\uE107", "Treasure: " + treasureCaught));
-        entries.add(Map.entry("\uE108", "Spirit: " + spiritCaught));
+        entries.add(Map.entry("", "Reel-ins: " + lootReelInTimes));
+        entries.add(Map.entry("", "XP: " + String.format("%,d", xpGained)));
+        entries.add(Map.entry("", "Junk: " + junkCaught));
+        entries.add(Map.entry("", "Normal: " + normalFishCaught));
+        entries.add(Map.entry("", "Elusive: " + elusiveFishCaught));
+        entries.add(Map.entry("", "Pearl: " + pearlCaught));
+        entries.add(Map.entry("", "Treasure: " + treasureCaught));
+        entries.add(Map.entry("", "Spirit: " + spiritCaught));
 
         return entries;
     }
 
     private void getFishingTimeFromScoreBoard() {
-        if (client != null && client.player != null && client.world != null) {
-            Scoreboard scoreboard = client.world.getScoreboard();
-            ScoreboardObjective objective = scoreboard.getObjectiveForSlot(ScoreboardDisplaySlot.SIDEBAR);
+        if (client != null && client.player != null && client.level != null) {
+            Scoreboard scoreboard = client.level.getScoreboard();
+            Objective objective = scoreboard.getDisplayObjective(DisplaySlot.SIDEBAR);
             if (objective != null) {
                 String objectiveName = objective.getDisplayName().getString();
                 Matcher matcher = MCCI_TITLE_PATTERN.matcher(objectiveName);

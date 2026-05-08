@@ -1,11 +1,11 @@
 package starship.cfm.trevorOpener;
 
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
-import net.minecraft.text.StyleSpriteSource;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.FontDescription;
+import net.minecraft.network.chat.Style;
+import net.minecraft.resources.Identifier;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -42,27 +42,26 @@ public class Augment extends Recorder {
         put("Stable Rod Augment", "\uE11F");
         put("Lucky Pot Augment", "\uE120");
     }};
-
     @Override
     protected Set<String> getNames() {
         return NAMES;
     }
 
     @Override
-    public Text summary() {
-        MutableText root = Text.literal("  ");
+    public Component summary() {
+        MutableComponent root = Component.literal("  ");
         for (Map.Entry<String, String> entry : ICON_MAP.entrySet()) {
             String name = entry.getKey();
             String icon = entry.getValue();
             int count = record.getOrDefault(name, 0);
             if (record.get(name) == 0) continue;
-            root.append(Text.literal(icon).setStyle(Style.EMPTY.withColor(Formatting.WHITE).withFont(
-                    new StyleSpriteSource.Font(Identifier.of("cfm", "icon")))));
-            root.append(Text.literal(" x" + count + "  ").formatted(Formatting.GRAY));
+            root.append(Component.literal(icon).setStyle(Style.EMPTY.withColor(ChatFormatting.WHITE).withFont(
+                        new FontDescription.Resource(Identifier.fromNamespaceAndPath("cfm", "icon")))));
+            root.append(Component.literal(" x" + count + "  ").withStyle(ChatFormatting.GRAY));
             if ((name.contains("Strong Pot Augment") || name.contains("Wise Pot Augment")
                     || name.contains("Glimmering Pot Augment") || name.contains("Greedy Pot Augment"))
                     && record.values().stream().allMatch(v -> v != 0))
-                root.append(Text.literal("\n  "));
+                root.append(Component.literal("\n  "));
         }
         return root;
     }

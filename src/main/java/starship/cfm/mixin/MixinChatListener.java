@@ -1,10 +1,10 @@
 package starship.cfm.mixin;
 
 import com.mojang.authlib.GameProfile;
-import net.minecraft.client.network.message.MessageHandler;
-import net.minecraft.network.message.MessageType;
-import net.minecraft.network.message.SignedMessage;
-import net.minecraft.text.Text;
+import net.minecraft.client.multiplayer.chat.ChatListener;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.PlayerChatMessage;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -14,15 +14,15 @@ import starship.cfm.augmentTracker.AugmentTracker;
 import starship.cfm.fishMessage.FishMessage;
 import starship.cfm.trevorOpener.TrevorOpener;
 
-@Mixin(MessageHandler.class)
+@Mixin(ChatListener.class)
 public abstract class MixinChatListener {
-    @Inject(method = "onChatMessage", at = @At("HEAD"))
-    private void cacheChatData(SignedMessage message, GameProfile sender,
-                               MessageType.Parameters params, CallbackInfo ci) {
+    @Inject(method = "handlePlayerChatMessage", at = @At("HEAD"))
+    private void cacheChatData(PlayerChatMessage message, GameProfile sender,
+                               ChatType.Bound params, CallbackInfo ci) {
     }
 
-    @Inject(method = "onGameMessage", at = @At("HEAD"), cancellable = true)
-    private void maybeCancelMessage(Text message, boolean overlay, CallbackInfo ci) {
+    @Inject(method = "handleSystemMessage", at = @At("HEAD"), cancellable = true)
+    private void maybeCancelMessage(Component message, boolean overlay, CallbackInfo ci) {
         if (FishMessage.getInstance().shouldChatMsgCancel(message)) {
             ci.cancel();
         }
@@ -33,11 +33,11 @@ public abstract class MixinChatListener {
     }
 
     @ModifyVariable(
-            method = "onGameMessage",
+            method = "handleSystemMessage",
             at = @At("HEAD"),
             argsOnly = true
     )
-    private Text modifyGameMessage(Text original) {
+    private Component modifyGameMessage(Component original) {
         return FishMessage.getInstance().sendGameMsg(original);
     }
 }
