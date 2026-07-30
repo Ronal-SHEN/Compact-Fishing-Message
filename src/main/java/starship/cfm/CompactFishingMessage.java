@@ -57,8 +57,8 @@ public class CompactFishingMessage implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (openConfigKeybind.consumeClick()) {
-                if (client.player != null && client.screen == null) {
-                    client.setScreen(ConfigScreen.buildScreen(CompactFishingMessage.getInstance(), null));
+                if (client.player != null && client.gui.screen() == null) {
+                    client.setScreenAndShow(ConfigScreen.buildScreen(CompactFishingMessage.getInstance(), null));
                 }
             }
         });

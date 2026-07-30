@@ -64,7 +64,7 @@ public class FishMessage {
     public void tick(Minecraft client) {
         if (client != null && client.player != null && client.level != null) {
             FishMessage.client = client;
-            ChatComponent chatHud = FishMessage.client.gui.getChat();
+            ChatComponent chatHud = FishMessage.client.gui.hud.getChat();
             chatVisibleMessages = ((MixinChatHudAccessor) chatHud).getVisibleMessages();
             chatMessages = ((MixinChatHudAccessor) chatHud).getMessages();
             this.recordOverlay.tick(client);
