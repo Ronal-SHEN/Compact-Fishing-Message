@@ -123,9 +123,11 @@ public class RecordOverlay {
                 if (matcher.find()) {
                     String islandName = matcher.group(1);
                     ifInFishingIsland = ISLAND_NAMES.contains(islandName);
+                    linboTickCounter = 0;
                 } else {
                     if (linboTickCounter >= 20 * 3) {
                         ifInFishingIsland = false;
+                        linboTickCounter = 0;
                     } else
                         linboTickCounter++;
                 }
