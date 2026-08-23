@@ -6,7 +6,6 @@ import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import net.minecraft.util.Util;
 import starship.cfm.CompactFishingMessage;
 import starship.cfm.augmentTracker.AugmentTracker;
 import starship.cfm.mixin.MixinChatHudAccessor;
@@ -42,12 +41,15 @@ public class FishMessage {
             "XP Magnet", "Fish Magnet", "Pearl Magnet", "Treasure Magnet", "Spirit Magnet",
             "Elusive Catch", "Supply Preserve"
     );
+    private static final int CATCH_TIMEOUT_TICKS = 20 * 3;
+    private static final int LEAVE_ISLAND_RESET_TICKS = 20 * 3;
     private static FishMessage instance;
     private static MinecraftClient client;
     public final RecordOverlay recordOverlay = new RecordOverlay();
     private final boolean ifDebug = false;
     private final FishSession session = new FishSession();
     public boolean ifInFishingIsland = false;
+    private int leaveIslandTickCounter = 0;
     private List<ChatHudLine.Visible> chatVisibleMessages;
     private List<ChatHudLine> chatMessages;
     private String chatHistoryFishMessage = "";
@@ -68,13 +70,48 @@ public class FishMessage {
             chatVisibleMessages = ((MixinChatHudAccessor) chatHud).getVisibleMessages();
             chatMessages = ((MixinChatHudAccessor) chatHud).getMessages();
             this.recordOverlay.tick(client);
+
             ifInFishingIsland = this.recordOverlay.ifInFishingIsland;
+            if (ifInFishingIsland) leaveIslandTickCounter = 0;
+            else leaveIslandTickCounter++;
+
+            checkSessionTimeout();
+        } else { // left the world / disconnected
+            ifInFishingIsland = false;
+            leaveIslandTickCounter = LEAVE_ISLAND_RESET_TICKS;
+            chatHistoryFishMessage = "";
+            if (session.isActive) session.reset();
+        }
+    }
+
+    private void checkSessionTimeout() {
+        if (!session.isActive) return;
+        session.idleTickCounter++;
+        if (session.idleTickCounter > CATCH_TIMEOUT_TICKS
+                || leaveIslandTickCounter > LEAVE_ISLAND_RESET_TICKS) session.reset();
+    }
+
+    // A message wider than the chat box wraps into several visible lines. They are stored
+    // newest-first, so an entry starts at its endOfEntry line and runs on through the lines
+    // that are not endOfEntry; drop the whole group or the leading ones stay on screen until
+    // the next refreshVisibleMessages().
+    private void removeVisibleEntry(int entryIndex) {
+        int entry = -1;
+        for (int i = 0; i < chatVisibleMessages.size(); i++) {
+            if (!chatVisibleMessages.get(i).endOfEntry()) continue;
+            entry++;
+            if (entry < entryIndex) continue;
+            chatVisibleMessages.remove(i);
+            while (i < chatVisibleMessages.size() && !chatVisibleMessages.get(i).endOfEntry())
+                chatVisibleMessages.remove(i);
+            return;
         }
     }
 
     public Text sendGameMsg(Text text) {
         if (!ConfigData.getInstance().enableCompactFishmsg) return text;
         if (client == null || client.player == null || client.world == null) return text;
+        if (!ifInFishingIsland) return text;
         if (!ifMatch) return text;
         if (session.isActive) {
             return session.caughtMessage.copy();
@@ -86,6 +123,7 @@ public class FishMessage {
     public boolean shouldChatMsgCancel(Text text) {
         if (!ConfigData.getInstance().enableCompactFishmsg) return false;
         if (client == null || client.player == null || client.world == null) return false;
+        if (!ifInFishingIsland) return false;
         ifMatch = false;
         String msg = text.getString();
 
@@ -93,11 +131,12 @@ public class FishMessage {
         Matcher triggerMatcher = TRIGGER_PATTERN.matcher(msg);
         Matcher earnedMatcher = XP_PATTERN.matcher(msg);
 
-        if (caughtMatcher.find() && !session.isActive) {
+        if (caughtMatcher.find()) {
+            if (session.isActive) session.reset(); // stale catch: its XP msg never arrived
             ifMatch = true;
             session.isActive = true;
 
-            session.catchTime = Util.getMeasuringTimeMs();
+            session.idleTickCounter = 0;
             session.lootName = caughtMatcher.group(1).trim();
             String countStr = caughtMatcher.group(2);
             session.lootCount = (countStr != null) ? Integer.parseInt(countStr) : 1;
@@ -108,28 +147,18 @@ public class FishMessage {
 
         }
 
-        if (triggerMatcher.find() && session.isActive) {
+        if (triggerMatcher.find() && session.isActive && session.caughtMessage != null) {
             ifMatch = true;
+            session.idleTickCounter = 0;
             Text icon = extractTriggerIcon(text);
             if (chatVisibleMessages == null || chatMessages == null) return true;
             for (int i = 0; i < min(5, chatMessages.size()); i++) {
-                if (chatMessages.get(i).content().getString().contains(session.caughtMessage.getString())) {
-                    session.caughtMessage.append(Text.literal(" ")).append(icon);
-                    chatMessages.remove(i);
-                    if (!chatVisibleMessages.get(i).endOfEntry())
-                        for (int j = i + 1; j < min(chatVisibleMessages.size(), 10); j++) {
-                            if (chatVisibleMessages.get(j).endOfEntry()) {
-                                chatVisibleMessages.remove(j);
-                                break;
-                            }
-                        }
-                    else {
-                        chatVisibleMessages.remove(i);
-                        if (i < chatVisibleMessages.size() && !chatVisibleMessages.get(i).endOfEntry())
-                            chatVisibleMessages.remove(i); // if some1's chat box is too thin, making msg 2 line
-                    }
-                    break;
-                }
+                if (!chatMessages.get(i).content().getString().contains(session.caughtMessage.getString())) continue;
+
+                session.caughtMessage.append(Text.literal(" ")).append(icon);
+                chatMessages.remove(i);
+                removeVisibleEntry(i);
+                break;
             }
             session.triggers.add(triggerMatcher.group(2));
             return false;
@@ -146,13 +175,12 @@ public class FishMessage {
             session.reset();
             return true;
         }
-        if (ifMatch && session.isActive && (Util.getMeasuringTimeMs() - session.catchTime) > 1000 * 30) session.reset();
-
         return false;
     }
 
     public boolean shouldHistoryChatCancel(Text text) { // false = no change
         if (!ConfigData.getInstance().enableCompactFishmsg) return false;
+        if (!ifInFishingIsland) return false;
         if (chatVisibleMessages != null || chatMessages != null) return false;
         String plain = text.getString();
         Pattern pattern = Pattern.compile(".*?(\\(.*?\\) You caught: .+)");

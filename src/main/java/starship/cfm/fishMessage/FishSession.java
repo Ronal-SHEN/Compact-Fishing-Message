@@ -16,7 +16,7 @@ public class FishSession {
     public int xpGained = 0;
     public boolean isActive = false;
     public boolean isLast = false;
-    public long catchTime = 0;
+    public int idleTickCounter = 0; // zeroed by every msg of this catch, drives the timeout
 
     public Text msgSummary = null;
     public FontFactory.CategoryType catType = null;
@@ -30,7 +30,7 @@ public class FishSession {
         caughtMessage = null;
         msgSummary = null;
         isLast = false;
-        catchTime = 0;
+        idleTickCounter = 0;
         catType = null;
         triggers.clear();
     }
