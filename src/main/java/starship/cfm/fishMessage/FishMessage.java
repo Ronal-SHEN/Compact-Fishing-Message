@@ -136,24 +136,16 @@ public class FishMessage {
             Component icon = extractTriggerIcon(text);
             if (chatVisibleMessages == null || chatMessages == null) return true;
             for (int i = 0; i < min(5, chatMessages.size()); i++) {
-                if (chatMessages.get(i).content().getString().contains(session.caughtMessage.getString())) {
-                    session.caughtMessage.append(Component.literal(" ")).append(icon);
-                    chatMessages.remove(i);
-                    // TODO: verify endOfEntry() method name in Mojang 26.1 ChatComponent.VisibleLine
-                    if (!chatVisibleMessages.get(i).endOfEntry())
-                        for (int j = i + 1; j < min(chatVisibleMessages.size(), 10); j++) {
-                            if (chatVisibleMessages.get(j).endOfEntry()) {
-                                chatVisibleMessages.remove(j);
-                                break;
-                            }
-                        }
-                    else {
-                        chatVisibleMessages.remove(i);
-                        if (i < chatVisibleMessages.size() && !chatVisibleMessages.get(i).endOfEntry())
-                            chatVisibleMessages.remove(i); // if some1's chat box is too thin, making msg 2 line
-                    }
-                    break;
-                }
+                GuiMessage caught = chatMessages.get(i);
+                if (!caught.content().getString().contains(session.caughtMessage.getString())) continue;
+
+                session.caughtMessage.append(Component.literal(" ")).append(icon);
+                chatMessages.remove(i);
+                // every wrapped line keeps a ref to the message it came from, so drop them by
+                // owner: a message wider than the chat box makes more than one line, and its
+                // leading ones used to stay on screen until the next refreshTrimmedMessages()
+                chatVisibleMessages.removeIf(visibleLine -> visibleLine.parent() == caught);
+                break;
             }
             session.triggers.add(triggerMatcher.group(2));
             return false;
