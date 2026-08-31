@@ -31,7 +31,7 @@ public class ConfigScreen {
                 .build());
 
         category.addEntry(entryBuilder.startBooleanToggle(Component.translatable("option.cfm.island_xp"), config.showIslandXpInFishmsg)
-                .setDefaultValue(false)
+                .setDefaultValue(true)
                 .setSaveConsumer(newValue -> config.showIslandXpInFishmsg = newValue)
                 .setTooltip(Component.translatable("tooltip.cfm.island_xp"))
                 .build());
