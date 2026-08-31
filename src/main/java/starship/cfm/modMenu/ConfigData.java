@@ -14,6 +14,7 @@ public class ConfigData {
     private static ConfigData instance = new ConfigData();
     public boolean enableTreasureReciMsg = false;
     public boolean enableCompactFishmsg = true;
+    public boolean showIslandXpInFishmsg = false;
     public boolean enableFishRecordOverlay = true;
     public int fishRecordRenderTextX = 10;
     public int fishRecordRenderTextY = 10;
@@ -56,6 +57,7 @@ public class ConfigData {
     public void updateFrom(ConfigData newData) {
         this.enableTreasureReciMsg = newData.enableTreasureReciMsg;
         this.enableCompactFishmsg = newData.enableCompactFishmsg;
+        this.showIslandXpInFishmsg = newData.showIslandXpInFishmsg;
 
         this.enableFishRecordOverlay = newData.enableFishRecordOverlay;
         this.fishRecordRenderTextX = newData.fishRecordRenderTextX;

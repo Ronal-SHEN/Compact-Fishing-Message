@@ -30,6 +30,12 @@ public class ConfigScreen {
                 .setTooltip(Component.translatable("tooltip.cfm.compact_fishmsg"))
                 .build());
 
+        category.addEntry(entryBuilder.startBooleanToggle(Component.translatable("option.cfm.island_xp"), config.showIslandXpInFishmsg)
+                .setDefaultValue(false)
+                .setSaveConsumer(newValue -> config.showIslandXpInFishmsg = newValue)
+                .setTooltip(Component.translatable("tooltip.cfm.island_xp"))
+                .build());
+
         category.addEntry(entryBuilder.startBooleanToggle(Component.translatable("option.cfm.trevor_opener"), config.enableTreasureReciMsg)
                 .setDefaultValue(false)
                 .setSaveConsumer(newValue -> config.enableTreasureReciMsg = newValue)
