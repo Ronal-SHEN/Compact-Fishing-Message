@@ -3,6 +3,8 @@
   "category.cfm": "Compact Fishing Messages",
   "title.cfm.config": "MCCI Compact Fishing Messages Settings",
   "option.cfm.compact_fishmsg": "Enable Compact Fishing Message",
+  "option.cfm.island_xp": "Show Island XP in Fishing Message",
+  "tooltip.cfm.island_xp": "Whether appends the Island XP you earned to the end of each compact fishing message instead of hiding it.",
   "option.cfm.trevor_opener": "Enable Receiving Treasure Messages",
   "option.cfm.record_overlay": "Enable Record Overlay",
   "group.cfm.render_settings": "Record Overlay Render Display Settings",

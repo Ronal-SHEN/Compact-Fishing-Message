@@ -54,6 +54,7 @@ public class FishMessage {
     private List<GuiMessage> chatMessages;
     private String chatHistoryFishMessage = "";
     private boolean ifMatch = false;
+    private Component pendingFinalMessage = null; // compact msg + earned XP, waiting to replace the XP line
 
     public FishMessage(CompactFishingMessage cfm) {
         FishMessage.instance = this;
@@ -96,6 +97,11 @@ public class FishMessage {
         if (client == null || client.player == null || client.level == null) return text;
         if (!ifInFishingIsland) return text;
         if (!ifMatch) return text;
+        if (pendingFinalMessage != null) {
+            Component finalMessage = pendingFinalMessage;
+            pendingFinalMessage = null;
+            return finalMessage;
+        }
         if (session.isActive) {
             return session.caughtMessage.copy();
         } else
@@ -159,6 +165,10 @@ public class FishMessage {
             if (session.triggers.stream().noneMatch(s -> s.contains("Supply Preserve"))) {
                 AugmentTracker.getInstance().recordAugment();
             }
+            if (appendXpToCaughtMessage()) { // this line becomes the compact msg carrying the XP
+                session.reset();
+                return false;
+            }
             session.reset();
             return true;
         }
@@ -182,6 +192,28 @@ public class FishMessage {
                 } else // new history msg
                     chatHistoryFishMessage = matcher.group(1);
         } else chatHistoryFishMessage = "";
+        return false;
+    }
+
+    // Replaces the compact catch line already in chat with one ending in " + x XP"; the XP
+    // message itself is then modified into that line, so nothing extra shows up.
+    private boolean appendXpToCaughtMessage() {
+        if (!ConfigData.getInstance().showIslandXpInFishmsg) return false;
+        if (session.caughtMessage == null) return false;
+        if (chatVisibleMessages == null || chatMessages == null) return false;
+
+        for (int i = 0; i < min(5, chatMessages.size()); i++) {
+            GuiMessage caught = chatMessages.get(i);
+            if (!caught.content().getString().contains(session.caughtMessage.getString())) continue;
+
+            pendingFinalMessage = session.caughtMessage.copy()
+                    .append(Component.literal(" + ").setStyle(Style.EMPTY.withColor(0xAAAAAA)))
+                    .append(Component.literal(String.valueOf(session.xpGained)).setStyle(Style.EMPTY.withColor(0xFFFFFF)))
+                    .append(Component.literal(" XP").setStyle(Style.EMPTY.withColor(0xAAAAAA)));
+            chatMessages.remove(i);
+            chatVisibleMessages.removeIf(visibleLine -> visibleLine.parent() == caught);
+            return true;
+        }
         return false;
     }
 
