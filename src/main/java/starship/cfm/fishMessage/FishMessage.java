@@ -195,7 +195,7 @@ public class FishMessage {
         return false;
     }
 
-    // Replaces the compact catch line already in chat with one ending in " + x XP"; the XP
+    // Replaces the compact catch line already in chat with one ending in " +x XP"; the XP
     // message itself is then modified into that line, so nothing extra shows up.
     private boolean appendXpToCaughtMessage() {
         if (!ConfigData.getInstance().showIslandXpInFishmsg) return false;
@@ -206,10 +206,9 @@ public class FishMessage {
             GuiMessage caught = chatMessages.get(i);
             if (!caught.content().getString().contains(session.caughtMessage.getString())) continue;
 
-            pendingFinalMessage = session.caughtMessage.copy()
-                    .append(Component.literal(" + ").setStyle(Style.EMPTY.withColor(0xAAAAAA)))
-                    .append(Component.literal(String.valueOf(session.xpGained)).setStyle(Style.EMPTY.withColor(0xFFFFFF)))
-                    .append(Component.literal(" XP").setStyle(Style.EMPTY.withColor(0xAAAAAA)));
+            pendingFinalMessage = session.caughtMessage.copy().append(
+                    Component.literal(" +" + session.xpGained + " XP")
+                            .setStyle(Style.EMPTY.withColor(0xAAAAAA)));
             chatMessages.remove(i);
             chatVisibleMessages.removeIf(visibleLine -> visibleLine.parent() == caught);
             return true;
