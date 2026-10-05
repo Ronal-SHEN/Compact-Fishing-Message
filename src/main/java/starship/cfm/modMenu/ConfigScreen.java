@@ -36,12 +36,6 @@ public class ConfigScreen {
                 .setTooltip(Text.translatable("tooltip.cfm.island_xp"))
                 .build());
 
-        category.addEntry(entryBuilder.startBooleanToggle(Text.translatable("option.cfm.trevor_opener"), config.enableTreasureReciMsg)
-                .setDefaultValue(false)
-                .setSaveConsumer(newValue -> config.enableTreasureReciMsg = newValue)
-                .setTooltip(Text.translatable("tooltip.cfm.trevor_opener"))
-                .build());
-
         category.addEntry(entryBuilder.startBooleanToggle(Text.translatable("option.cfm.record_overlay"), config.enableFishRecordOverlay)
                 .setDefaultValue(true)
                 .setSaveConsumer(newValue -> config.enableFishRecordOverlay = newValue)
