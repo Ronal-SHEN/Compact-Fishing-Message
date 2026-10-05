@@ -17,7 +17,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FontDescription;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.Identifier;
-import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import starship.cfm.augmentTracker.AugmentTracker;
@@ -50,8 +49,8 @@ public class CompactFishingMessage implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(this::tick);
         openConfigKeybind = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.cfm.open_config",
-                InputConstants.Type.KEYSYM,
-                GLFW.GLFW_KEY_K,
+                InputConstants.Type.KEYBOARD,
+                InputConstants.KEY_K,
                 KeyMapping.Category.register(Identifier.fromNamespaceAndPath("cfm", "main"))
         ));
 
