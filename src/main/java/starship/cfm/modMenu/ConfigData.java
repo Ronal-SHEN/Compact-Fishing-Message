@@ -12,7 +12,6 @@ public class ConfigData {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final File CONFIG_FILE = new File("config/fishhelper.json");
     private static ConfigData instance = new ConfigData();
-    public boolean enableTreasureReciMsg = false;
     public boolean enableCompactFishmsg = true;
     public boolean showIslandXpInFishmsg = true;
     public boolean enableFishRecordOverlay = true;
@@ -55,7 +54,6 @@ public class ConfigData {
     }
 
     public void updateFrom(ConfigData newData) {
-        this.enableTreasureReciMsg = newData.enableTreasureReciMsg;
         this.enableCompactFishmsg = newData.enableCompactFishmsg;
         this.showIslandXpInFishmsg = newData.showIslandXpInFishmsg;
 
