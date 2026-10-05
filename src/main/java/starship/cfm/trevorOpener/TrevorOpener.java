@@ -5,7 +5,6 @@ import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import starship.cfm.CompactFishingMessage;
-import starship.cfm.modMenu.ConfigData;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -77,7 +76,7 @@ public class TrevorOpener {
 
     public boolean shouldChatMsgCancel(Component text) {
         if (eventState == EventState.INACTIVE) return false;
-        if (!ifReceivedMsgAfterOpen && !ConfigData.getInstance().enableTreasureReciMsg) return false;
+        if (!ifReceivedMsgAfterOpen) return false;
 
         Matcher matcher = RECEIVE_PATTERN.matcher(text.getString());
         if (!matcher.find()) return false;
@@ -97,7 +96,7 @@ public class TrevorOpener {
             cosmetic.record(name, count);
         } else
             return false;
-        return !ConfigData.getInstance().enableTreasureReciMsg;
+        return true;
     }
 
     public void eventStart() {
